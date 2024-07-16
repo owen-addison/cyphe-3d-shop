@@ -1,22 +1,32 @@
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 
-function Item({ data, isDetailedView, toggleView }) {
+interface ItemData {
+  id: number;
+  name: string;
+  imageSrc: string;
+  ingredients: string[];
+}
+
+interface ItemProps {
+  data: ItemData;
+  isDetailedView: boolean;
+  toggleView: () => void;
+}
+
+const Item: React.FC<ItemProps> = ({ data, isDetailedView, toggleView }) => {
   const [shouldShowDetails, setShouldShowDetails] = useState(false);
   const { id } = data;
 
-  // Handler for adding to basket
-  const addToBasket = (event) => {
+  const addToBasket = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     console.log(`Add item to basket, id = ${id}`);
   };
 
   useEffect(() => {
     if (isDetailedView) {
-      // Wait for the resize transition of item-rhs to finish before showing details
       setTimeout(() => {
         setShouldShowDetails(true);
-      }, 500); // This matches the duration of the resize transition
+      }, 500);
     } else {
       setShouldShowDetails(false);
     }
@@ -34,7 +44,9 @@ function Item({ data, isDetailedView, toggleView }) {
       </div>
       {/* Description box that resizes and then fades in content */}
       <div
-        className={`item-rhs flex flex-col content-center justify-center overflow-hidden transition-all duration-500 ease-in-out ${isDetailedView ? 'w-80 gap-4 p-4' : 'w-0 gap-0 p-0'} ${shouldShowDetails ? 'opacity-100' : 'opacity-0'}`}
+        className={`item-rhs flex flex-col content-center justify-center overflow-hidden transition-all duration-500 ease-in-out ${
+          isDetailedView ? 'w-80 gap-4 p-4' : 'w-0 gap-0 p-0'
+        } ${shouldShowDetails ? 'opacity-100' : 'opacity-0'}`}
       >
         {shouldShowDetails && (
           <>
@@ -42,7 +54,7 @@ function Item({ data, isDetailedView, toggleView }) {
               <h3 className="item-header font-semibold">{data.name}</h3>
               <div className="flex flex-col content-center justify-center">
                 <ul className="item-ingredients w-max list-disc self-center text-start">
-                  {data.ingredients.map((ingredient, index) => (
+                  {data.ingredients.map((ingredient: string, index: number) => (
                     <li key={index} className="ingredient">
                       {ingredient}
                     </li>
@@ -61,18 +73,6 @@ function Item({ data, isDetailedView, toggleView }) {
       </div>
     </div>
   );
-}
-
-// Define the expected prop types
-Item.propTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    imageSrc: PropTypes.string.isRequired,
-    ingredients: PropTypes.array.isRequired,
-  }).isRequired,
-  isDetailedView: PropTypes.bool.isRequired,
-  toggleView: PropTypes.func.isRequired,
 };
 
 export default Item;

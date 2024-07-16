@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
-function Info({ onClose }) {
+interface InfoProps {
+  onClose: () => void;
+}
+
+const Info: React.FC<InfoProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-start justify-start overflow-y-auto bg-moss-400">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -53,10 +57,6 @@ function Info({ onClose }) {
       </div>
     </div>
   );
-}
-
-Info.propTypes = {
-  onClose: PropTypes.func.isRequired,
 };
 
 export default Info;

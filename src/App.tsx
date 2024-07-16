@@ -4,19 +4,26 @@ import Info from './components/Info';
 import Item from './components/Item';
 import './App.css';
 
-function App() {
-  const [items, setItems] = useState([]);
-  const [showInfo, setShowInfo] = useState(false);
-  const [activeItemId, setActiveItemId] = useState(null);
+interface ItemData {
+  id: number;
+  name: string;
+  imageSrc: string;
+  ingredients: string[];
+}
 
-  const toggleItemDetail = (id) => {
+function App() {
+  const [items, setItems] = useState<ItemData[]>([]);
+  const [showInfo, setShowInfo] = useState(false);
+  const [activeItemId, setActiveItemId] = useState<number | null>(null);
+
+  const toggleItemDetail = (id: number) => {
     setActiveItemId((prevId) => (prevId === id ? null : id));
   };
 
   useEffect(() => {
     fetch('/api/items.json')
       .then((response) => response.json())
-      .then((data) => setItems(data.items))
+      .then((data: { items: ItemData[] }) => setItems(data.items))
       .catch((error) => console.error('Error fetching items:', error));
   }, []);
 

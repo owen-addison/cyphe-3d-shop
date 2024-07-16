@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
-function Header({ onShowInfo }) {
+interface HeaderProps {
+  onShowInfo: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
   return (
     <div className="header min-w-screen z-40 flex h-16 items-center justify-between border-b border-moss-800 px-4">
       <div className="flex w-1/4 items-center">
@@ -32,10 +36,6 @@ function Header({ onShowInfo }) {
       </div>
     </div>
   );
-}
-
-Header.propTypes = {
-  onShowInfo: PropTypes.func.isRequired,
 };
 
 export default Header;
