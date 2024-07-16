@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Soap #1",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": ["Olive Oil", "Lemon Zest", "Bergamot"]
+    },
+    {
+      "id": 2,
+      "name": "Soap #2",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": ["Olive Oil", "Rose Water", "Pepper"]
+    }
+  ]
+}

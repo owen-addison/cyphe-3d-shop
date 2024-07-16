@@ -1,0 +1,45 @@
+:root {
+  --header-height: 4rem;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.item {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.item-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  padding-top: var(--header-height);
+}
+
+.item-container > * {
+  scroll-snap-align: start;
+  height: 100vh;
+  padding-top: var(--header-height);
+}
+
+/* Styles for the Header component */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+}
