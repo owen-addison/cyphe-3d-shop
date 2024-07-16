@@ -5,7 +5,7 @@ function Header({ onShowInfo }) {
     <div className="header min-w-screen z-40 flex h-16 items-center justify-between border-b border-moss-800 px-4">
       <div className="flex w-1/4 items-center">
         <div className="font-sans text-2xl font-light tracking-wider-3 text-moss-950">
-          Clima
+          &#x122D;&#x101B;&#x1014;&#x100F;&#x1001;
         </div>
       </div>
       <div className="flex w-1/2 justify-center">
