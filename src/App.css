@@ -16,6 +16,14 @@ html {
   justify-content: center;
 }
 
+.item-lhs {
+  flex: 0 0 400px;
+}
+
+.item-rhs {
+  flex: 1;
+}
+
 .app-container {
   height: 100vh;
   overflow: hidden;
