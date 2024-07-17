@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Box } from '@react-three/drei';
 
 interface ItemData {
   id: number;
@@ -11,6 +13,23 @@ interface ItemProps {
   data: ItemData;
   isDetailedView: boolean;
   toggleView: () => void;
+}
+
+function Cube() {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x += delta;
+      meshRef.current.rotation.y += delta;
+    }
+  });
+
+  return (
+    <Box ref={meshRef} args={[1, 1, 1]}>
+      <meshStandardMaterial color="hotpink" />
+    </Box>
+  );
 }
 
 const Item: React.FC<ItemProps> = ({ data, isDetailedView, toggleView }) => {
@@ -34,13 +53,13 @@ const Item: React.FC<ItemProps> = ({ data, isDetailedView, toggleView }) => {
 
   return (
     <div className="item" onClick={toggleView}>
-      {/* Image container */}
-      <div className="item-lhs p-4">
-        <img
-          src={data.imageSrc}
-          alt={`${data.name} image`}
-          className="item-image h-96 w-auto p-4"
-        />
+      {/* 3D Cube container */}
+      <div className="item-lhs p-4" style={{ width: '400px', height: '400px' }}>
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          <Cube />
+        </Canvas>
       </div>
       {/* Description box that resizes and then fades in content */}
       <div
