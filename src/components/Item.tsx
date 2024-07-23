@@ -37,6 +37,9 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   // const [shouldShowDetails, setShouldShowDetails] = useState(false);
   const { id, name } = data;
 
+  // Placeholder text for ingredients
+  const ingredient1 = 'Olive Oil';
+
   const addToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     console.log(`Add item to cart, id = ${id}`);
@@ -59,6 +62,19 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         className="flex flex-grow items-center justify-center"
         style={{ height: '80%' }}
       >
+        {/* Container for the floating div */}
+        <div className="float-container absolute inset-1 h-40 w-52">
+          {/* Container for the bubble and ingredient text */}
+          <div className="info-point-container flex h-min w-16 gap-1">
+            <div className="bubble-container h-full w-1/3">
+              <span className="bubble h-full w-full rounded-full border"></span>
+            </div>
+            <div className="ingredient-container flex h-full w-2/3 flex-row content-center text-center">
+              {ingredient1}
+            </div>
+          </div>
+        </div>
+        {/* 3D view */}
         <div style={{ width: '400px', height: '400px' }}>
           <Canvas>
             <ambientLight intensity={0.5} />
