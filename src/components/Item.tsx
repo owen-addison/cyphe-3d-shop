@@ -59,17 +59,17 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
     <div className="item flex h-screen flex-col" onClick={toggleView}>
       {/* Top section with 3D view */}
       <div
-        className="flex flex-grow items-center justify-center"
+        className="relative flex w-full flex-grow items-center justify-center"
         style={{ height: '80%' }}
       >
         {/* Container for the floating div */}
-        <div className="float-container absolute inset-1 h-40 w-52">
+        <div className="float-container absolute inset-1/4 h-40 w-52">
           {/* Container for the bubble and ingredient text */}
-          <div className="info-point-container flex h-min w-16 gap-1">
-            <div className="bubble-container h-full w-1/3">
-              <span className="bubble h-full w-full rounded-full border"></span>
+          <div className="info-point-container flex h-8 w-full gap-1">
+            <div className="bubble-container mr-2 h-8 w-8">
+              <span className="bubble block h-full w-full rounded-full border border-black"></span>
             </div>
-            <div className="ingredient-container flex h-full w-2/3 flex-row content-center text-center">
+            <div className="ingredient-container flex-1 whitespace-nowrap">
               {ingredient1}
             </div>
           </div>
