@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Box } from '@react-three/drei';
 import * as THREE from 'three';
@@ -36,6 +36,11 @@ function Cube() {
 const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   // const [shouldShowDetails, setShouldShowDetails] = useState(false);
   const { id, name, ingredients } = data;
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = (hovering: boolean) => {
+    setIsHovered(hovering);
+  };
 
   const addToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -72,10 +77,14 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
           >
             {/* Container for the bubble and ingredient text */}
             <div className="info-point-container absolute flex h-8 items-center">
-              <div className="bubble-container mr-2 h-8 w-8">
+              <div
+                className={`bubble-container mr-2 transition-all duration-300 ${isHovered ? 'h-4 w-4' : 'h-8 w-8'}`}
+              >
                 <span className="bubble block h-full w-full rounded-full border border-black"></span>
               </div>
-              <div className="ingredient-container max-w-[120px] whitespace-nowrap">
+              <div
+                className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap transition-all duration-300 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+              >
                 {ingredient}
               </div>
             </div>
@@ -83,7 +92,12 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         ))}
 
         {/* 3D view */}
-        <div style={{ width: '400px', height: '400px' }}>
+        <div
+          className="canvas-container"
+          style={{ width: '400px', height: '400px' }}
+          onMouseEnter={() => handleHover(true)}
+          onMouseLeave={() => handleHover(false)}
+        >
           <Canvas>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
