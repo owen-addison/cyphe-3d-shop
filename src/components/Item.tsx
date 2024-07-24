@@ -65,7 +65,7 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         {/* Container for the floating div */}
         <div className="float-container absolute inset-1/4 h-40 w-52">
           {/* Container for the bubble and ingredient text */}
-          <div className="info-point-container flex h-8 w-full gap-1">
+          <div className="info-point-container flex h-8 w-full items-center gap-1">
             <div className="bubble-container mr-2 h-8 w-8">
               <span className="bubble block h-full w-full rounded-full border border-black"></span>
             </div>
