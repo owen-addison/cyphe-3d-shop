@@ -50,9 +50,9 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   // Define positions for each float container
   const positions = [
     { top: '10%', left: '10%' },
-    { top: '20%', left: '60%' },
     { top: '50%', left: '15%' },
-    { top: '60%', left: '70%' },
+    { top: '30%', left: '80%' },
+    { top: '20%', left: '70%' },
     // Add more positions as needed
   ];
 
