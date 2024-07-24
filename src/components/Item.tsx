@@ -35,10 +35,7 @@ function Cube() {
 
 const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   // const [shouldShowDetails, setShouldShowDetails] = useState(false);
-  const { id, name } = data;
-
-  // Placeholder text for ingredients
-  const ingredient1 = 'Olive Oil';
+  const { id, name, ingredients } = data;
 
   const addToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -62,18 +59,29 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         className="relative flex w-full flex-grow items-center justify-center"
         style={{ height: '80%' }}
       >
-        {/* Container for the floating div */}
-        <div className="float-container absolute inset-1/4 h-40 w-52">
-          {/* Container for the bubble and ingredient text */}
-          <div className="info-point-container flex h-8 w-full items-center gap-1">
-            <div className="bubble-container mr-2 h-8 w-8">
-              <span className="bubble block h-full w-full rounded-full border border-black"></span>
-            </div>
-            <div className="ingredient-container flex-1 whitespace-nowrap">
-              {ingredient1}
+        {/* Multiple float containers for ingredients */}
+        {ingredients.map((ingredient, index) => (
+          <div
+            key={index}
+            className="float-container absolute h-40 w-52"
+            style={{
+              // Positioning
+              top: `${10 + index * 5}%`,
+              left: `${10 + index * 35}%`,
+            }}
+          >
+            {/* Container for the bubble and ingredient text */}
+            <div className="info-point-container absolute flex h-8 items-center">
+              <div className="bubble-container mr-2 h-8 w-8">
+                <span className="bubble block h-full w-full rounded-full border border-black"></span>
+              </div>
+              <div className="ingredient-container max-w-[120px] whitespace-nowrap">
+                {ingredient}
+              </div>
             </div>
           </div>
-        </div>
+        ))}
+
         {/* 3D view */}
         <div style={{ width: '400px', height: '400px' }}>
           <Canvas>
