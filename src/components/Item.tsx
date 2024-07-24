@@ -83,7 +83,7 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
                 <span className="bubble block h-full w-full rounded-full border border-black"></span>
               </div>
               <div
-                className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap transition-all duration-300 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+                className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
               >
                 {ingredient}
               </div>
