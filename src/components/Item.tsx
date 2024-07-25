@@ -17,6 +17,40 @@ interface ItemProps {
   toggleView: () => void;
 }
 
+const ingredientPositions = {
+  1: [{ top: '50%', left: '50%' }],
+  2: [
+    { top: '30%', left: '30%' },
+    { top: '70%', left: '70%' },
+  ],
+  3: [
+    { top: '20%', left: '20%' },
+    { top: '50%', left: '80%' },
+    { top: '80%', left: '50%' },
+  ],
+  4: [
+    { top: '10%', left: '20%' },
+    { top: '10%', left: '80%' },
+    { top: '70%', left: '30%' },
+    { top: '80%', left: '70%' },
+  ],
+  5: [
+    { top: '10%', left: '50%' },
+    { top: '30%', left: '20%' },
+    { top: '30%', left: '80%' },
+    { top: '70%', left: '30%' },
+    { top: '70%', left: '70%' },
+  ],
+  6: [
+    { top: '10%', left: '30%' },
+    { top: '10%', left: '70%' },
+    { top: '50%', left: '10%' },
+    { top: '50%', left: '90%' },
+    { top: '90%', left: '30%' },
+    { top: '90%', left: '70%' },
+  ],
+};
+
 function Cube() {
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -38,6 +72,12 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   const { id, name, ingredients } = data;
   const [isHovered, setIsHovered] = useState(false);
 
+  // Get the positions based on the number of ingredients
+  const positions =
+    ingredientPositions[
+      ingredients.length as keyof typeof ingredientPositions
+    ] || ingredientPositions[6]; // Fallback to 6-ingredient layout if more than 6
+
   const handleHover = (hovering: boolean) => {
     setIsHovered(hovering);
   };
@@ -47,14 +87,14 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
     console.log(`Add item to cart, id = ${id}`);
   };
 
-  // Define positions for each float container
-  const positions = [
-    { top: '10%', left: '10%' },
-    { top: '50%', left: '15%' },
-    { top: '30%', left: '80%' },
-    { top: '20%', left: '70%' },
-    // Add more positions as needed
-  ];
+  // // Define positions for each float container
+  // const positions = [
+  //   { top: '10%', left: '10%' },
+  //   { top: '50%', left: '15%' },
+  //   { top: '30%', left: '80%' },
+  //   { top: '20%', left: '70%' },
+  //   // Add more positions as needed
+  // ];
 
   return (
     <div className="item flex h-screen flex-col" onClick={toggleView}>
@@ -69,7 +109,7 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
             key={index}
             ingredient={ingredient}
             isHovered={isHovered}
-            position={positions[index % positions.length]}
+            position={positions[index] || positions[positions.length - 1]} // Fallback to last position if needed
           />
         ))}
 
