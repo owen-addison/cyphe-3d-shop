@@ -10,7 +10,13 @@
       "id": 2,
       "name": "Soap #2",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["Olive Oil", "Rose Water", "Pepper"]
+      "ingredients": ["Olive Oil", "Rose Water", "Pepper", "Sea Salt"]
+    },
+    {
+      "id": 3,
+      "name": "Soap #3",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": ["Olive Oil", "Sea Salt"]
     }
   ]
 }
