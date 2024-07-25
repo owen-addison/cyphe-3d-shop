@@ -42,12 +42,12 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
       controls.start({
         x: newPosition.x,
         y: newPosition.y,
-        transition: { duration: 10, ease: 'easeInOut' },
+        transition: { duration: 7, ease: 'easeInOut' },
       });
     };
 
     animate(); // Run immediately
-    const intervalId = setInterval(animate, 10000); // Then every 10 seconds
+    const intervalId = setInterval(animate, 7000); // Then every 10 seconds
 
     return () => clearInterval(intervalId); // Clean up function
   };
