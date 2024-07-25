@@ -18,15 +18,15 @@ interface ItemProps {
 }
 
 const ingredientPositions = {
-  1: [{ top: '50%', left: '50%' }],
+  1: [{ top: '30%', left: '50%' }],
   2: [
-    { top: '30%', left: '30%' },
+    { top: '10%', left: '20%' },
     { top: '70%', left: '70%' },
   ],
   3: [
     { top: '20%', left: '20%' },
-    { top: '50%', left: '80%' },
-    { top: '80%', left: '50%' },
+    { top: '30%', left: '65%' },
+    { top: '70%', left: '45%' },
   ],
   4: [
     { top: '10%', left: '20%' },
