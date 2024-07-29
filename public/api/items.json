@@ -2,21 +2,21 @@
   "items": [
     {
       "id": 1,
-      "name": "Soap #1",
+      "name": "soap #1",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["Olive Oil", "Lemon Zest", "Bergamot"]
+      "ingredients": ["olive oil", "lemon zest", "bergamot"]
     },
     {
       "id": 2,
-      "name": "Soap #2",
+      "name": "soap #2",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["Olive Oil", "Rose Water", "Pepper", "Sea Salt"]
+      "ingredients": ["olive oil", "rose water", "pepper", "sea salt"]
     },
     {
       "id": 3,
-      "name": "Soap #3",
+      "name": "soap #3",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["Olive Oil", "Sea Salt"]
+      "ingredients": ["olive oil", "sea salt"]
     }
   ]
 }
