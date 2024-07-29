@@ -14,11 +14,11 @@ interface ItemData {
 function App() {
   const [items, setItems] = useState<ItemData[]>([]);
   const [showInfo, setShowInfo] = useState(false);
-  const [activeItemId, setActiveItemId] = useState<number | null>(null);
+  // const [activeItemId, setActiveItemId] = useState<number | null>(null);
 
-  const toggleItemDetail = (id: number) => {
-    setActiveItemId((prevId) => (prevId === id ? null : id));
-  };
+  // const toggleItemDetail = (id: number) => {
+  //   setActiveItemId((prevId) => (prevId === id ? null : id));
+  // };
 
   useEffect(() => {
     fetch('/api/items.json')
@@ -35,8 +35,8 @@ function App() {
           <Item
             key={item.id}
             data={item}
-            isDetailedView={activeItemId === item.id}
-            toggleView={() => toggleItemDetail(item.id)}
+            // isDetailedView={activeItemId === item.id}
+            // toggleView={() => toggleItemDetail(item.id)}
           />
         ))}
       </div>
