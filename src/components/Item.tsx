@@ -75,7 +75,9 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     setItemCount(count);
   };
 
-  const addToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const addToCart = (
+    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+  ) => {
     event.stopPropagation();
     console.log(`Add ${itemCount} item(s) to cart, id = ${id}`);
   };
