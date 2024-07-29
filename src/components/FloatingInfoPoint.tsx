@@ -75,7 +75,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
         <div
           className={`ingredient-container font-mohave max-w-[120px] overflow-hidden whitespace-nowrap font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
         >
-          {ingredient}
+          {ingredient.toLocaleLowerCase()}
         </div>
       </motion.div>
     </div>

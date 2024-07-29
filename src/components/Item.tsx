@@ -114,7 +114,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         style={{ height: '20%' }}
       >
         <h3 className="font-mohave text-3xl font-light tracking-wider text-moss-800">
-          {name}
+          {name.toLocaleLowerCase()}
         </h3>
         <div className="flex items-center space-x-4">
           <ItemCounter onCountChange={handleCountChange} />
