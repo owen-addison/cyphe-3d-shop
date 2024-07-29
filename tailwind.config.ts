@@ -37,6 +37,7 @@ export default {
           '"Noto Color Emoji"',
         ],
         mohave: ['Mohave', 'sans-serif'],
+        maven: ['Maven Pro', 'sans-serif'],
       },
       letterSpacing: {
         'wider-2': '0.2em',
