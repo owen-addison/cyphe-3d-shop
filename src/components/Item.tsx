@@ -76,7 +76,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   };
 
   const addToCart = (
-    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
     console.log(`Add ${itemCount} item(s) to cart, id = ${id}`);
@@ -121,20 +121,20 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         <div className="flex items-center gap-8">
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
-            <p
+            <button
               className="font-mohave group cursor-pointer text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               onClick={addToCart}
             >
-              <div className="flex flex-row items-center">
+              <span className="flex flex-row items-center">
                 <span className="flex h-8 w-8 items-center justify-center transition-all group-hover:text-2xl">
                   &gt;
                 </span>
-                <div className="flex flex-col">
-                  <p className="font-light">add to cart</p>
+                <span className="flex flex-col">
+                  <span className="font-light">add to cart</span>
                   <span className="block h-0.5 max-w-0 bg-moss-800 bg-opacity-70 transition-all duration-500 group-hover:max-w-full"></span>
-                </div>
-              </div>
-            </p>
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       </div>
