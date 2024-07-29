@@ -36,6 +36,7 @@ export default {
           '"Segoe UI Symbol"',
           '"Noto Color Emoji"',
         ],
+        mohave: ['Mohave', 'sans-serif'],
       },
       letterSpacing: {
         'wider-2': '0.2em',

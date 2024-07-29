@@ -110,17 +110,21 @@ const Item: React.FC<ItemProps> = ({ data }) => {
       </div>
 
       <div
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center space-y-4"
         style={{ height: '20%' }}
       >
-        <h3 className="mb-4 text-xl font-semibold">{name}</h3>
-        <ItemCounter onCountChange={handleCountChange} />
-        <button
-          className="mt-2 rounded bg-moss-800 px-4 py-2 text-white transition-colors hover:bg-moss-900"
-          onClick={addToCart}
-        >
-          Add to cart
-        </button>
+        <h3 className="font-mohave text-3xl font-light tracking-wider text-moss-800">
+          {name}
+        </h3>
+        <div className="flex items-center space-x-4">
+          <ItemCounter onCountChange={handleCountChange} />
+          <button
+            className="font-mohave text-lg font-light tracking-wider text-moss-800 transition-colors hover:text-moss-950"
+            onClick={addToCart}
+          >
+            &gt; add to cart
+          </button>
+        </div>
       </div>
     </div>
   );
