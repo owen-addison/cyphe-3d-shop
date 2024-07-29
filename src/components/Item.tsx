@@ -122,7 +122,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
             <p
-              className="font-mohave group cursor-pointer text-lg font-light tracking-wider text-moss-800 transition duration-300"
+              className="font-mohave group cursor-pointer text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               onClick={addToCart}
             >
               <div className="flex flex-row items-center">
@@ -130,7 +130,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
                   &gt;
                 </span>
                 <div className="flex flex-col">
-                  <p>add to cart</p>
+                  <p className="font-light">add to cart</p>
                   <span className="block h-0.5 max-w-0 bg-moss-800 bg-opacity-70 transition-all duration-500 group-hover:max-w-full"></span>
                 </div>
               </div>
