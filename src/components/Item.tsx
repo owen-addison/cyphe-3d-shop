@@ -125,8 +125,10 @@ const Item: React.FC<ItemProps> = ({ data }) => {
               className="font-mohave group cursor-pointer text-lg font-light tracking-wider text-moss-800 transition duration-300"
               onClick={addToCart}
             >
-              <div className="flex flex-row gap-2">
-                <p>&gt;</p>
+              <div className="flex flex-row items-center">
+                <span className="flex h-8 w-8 items-center justify-center transition-all group-hover:text-2xl">
+                  &gt;
+                </span>
                 <div className="flex flex-col">
                   <p>add to cart</p>
                   <span className="block h-0.5 max-w-0 bg-moss-800 bg-opacity-70 transition-all duration-500 group-hover:max-w-full"></span>
