@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { Box } from '@react-three/drei';
-import * as THREE from 'three';
 import FloatingInfoPoint from './FloatingInfoPoint';
 import ItemCounter from './ItemCounter';
 
@@ -14,8 +13,6 @@ interface ItemData {
 
 interface ItemProps {
   data: ItemData;
-  isDetailedView: boolean;
-  toggleView: () => void;
 }
 
 const ingredientPositions = {
@@ -53,32 +50,22 @@ const ingredientPositions = {
 };
 
 function Cube() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta;
-      meshRef.current.rotation.y += delta;
-    }
-  });
-
   return (
-    <Box ref={meshRef} args={[1, 1, 1]}>
+    <Box args={[1, 1, 1]}>
       <meshStandardMaterial color="hotpink" />
     </Box>
   );
 }
 
-const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
+const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(0);
 
-  // Get the positions based on the number of ingredients
   const positions =
     ingredientPositions[
       ingredients.length as keyof typeof ingredientPositions
-    ] || ingredientPositions[6]; // Fallback to 6-ingredient layout if more than 6
+    ] || ingredientPositions[6];
 
   const handleHover = (hovering: boolean) => {
     setIsHovered(hovering);
@@ -93,33 +80,21 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
     console.log(`Add ${itemCount} item(s) to cart, id = ${id}`);
   };
 
-  // // Define positions for each float container
-  // const positions = [
-  //   { top: '10%', left: '10%' },
-  //   { top: '50%', left: '15%' },
-  //   { top: '30%', left: '80%' },
-  //   { top: '20%', left: '70%' },
-  //   // Add more positions as needed
-  // ];
-
   return (
-    <div className="item flex h-screen flex-col" onClick={toggleView}>
-      {/* Top section with 3D view */}
+    <div className="item flex h-screen flex-col">
       <div
         className="relative flex w-full flex-grow items-center justify-center"
         style={{ height: '80%' }}
       >
-        {/* Multiple float containers for ingredients */}
         {ingredients.map((ingredient, index) => (
           <FloatingInfoPoint
             key={index}
             ingredient={ingredient}
             isHovered={isHovered}
-            position={positions[index] || positions[positions.length - 1]} // Fallback to last position if needed
+            position={positions[index] || positions[positions.length - 1]}
           />
         ))}
 
-        {/* 3D view */}
         <div
           className="canvas-container"
           style={{ width: '400px', height: '400px' }}
@@ -134,7 +109,6 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         </div>
       </div>
 
-      {/* Bottom section with title, counter, and button */}
       <div
         className="flex flex-col items-center justify-center"
         style={{ height: '20%' }}
