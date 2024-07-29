@@ -110,13 +110,13 @@ const Item: React.FC<ItemProps> = ({ data }) => {
       </div>
 
       <div
-        className="flex flex-col items-center justify-center space-y-4"
+        className="flex flex-col items-center justify-start gap-2 space-y-4"
         style={{ height: '20%' }}
       >
         <h3 className="font-mohave text-3xl font-light tracking-wider text-moss-800">
           {name.toLocaleLowerCase()}
         </h3>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-8 space-x-4">
           <ItemCounter onCountChange={handleCountChange} />
           <button
             className="font-mohave text-lg font-light tracking-wider text-moss-800 transition-colors hover:text-moss-950"
