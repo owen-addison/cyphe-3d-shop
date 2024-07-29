@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Box } from '@react-three/drei';
 import * as THREE from 'three';
 import FloatingInfoPoint from './FloatingInfoPoint';
+import ItemCounter from './ItemCounter';
 
 interface ItemData {
   id: number;
@@ -71,6 +72,7 @@ function Cube() {
 const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
   const { id, name, ingredients } = data;
   const [isHovered, setIsHovered] = useState(false);
+  const [itemCount, setItemCount] = useState(0);
 
   // Get the positions based on the number of ingredients
   const positions =
@@ -82,9 +84,13 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
     setIsHovered(hovering);
   };
 
+  const handleCountChange = (count: number) => {
+    setItemCount(count);
+  };
+
   const addToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    console.log(`Add item to cart, id = ${id}`);
+    console.log(`Add ${itemCount} item(s) to cart, id = ${id}`);
   };
 
   // // Define positions for each float container
@@ -128,14 +134,15 @@ const Item: React.FC<ItemProps> = ({ data, toggleView }) => {
         </div>
       </div>
 
-      {/* Bottom section with title and button */}
+      {/* Bottom section with title, counter, and button */}
       <div
         className="flex flex-col items-center justify-center"
         style={{ height: '20%' }}
       >
         <h3 className="mb-4 text-xl font-semibold">{name}</h3>
+        <ItemCounter onCountChange={handleCountChange} />
         <button
-          className="rounded bg-moss-800 px-4 py-2 text-white transition-colors hover:bg-moss-900"
+          className="mt-2 rounded bg-moss-800 px-4 py-2 text-white transition-colors hover:bg-moss-900"
           onClick={addToCart}
         >
           Add to cart
