@@ -70,10 +70,10 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
         <div
           className={`bubble-container mr-2 transition-all duration-700 ${isHovered ? 'h-4 w-4' : 'h-8 w-8'}`}
         >
-          <span className="bubble block h-full w-full rounded-full border border-black"></span>
+          <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
-          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+          className={`ingredient-container font-mohave max-w-[120px] overflow-hidden whitespace-nowrap font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
         >
           {ingredient}
         </div>
