@@ -126,7 +126,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
               onClick={addToCart}
             >
               <span className="flex flex-row items-center">
-                <span className="flex h-8 w-8 items-center justify-center transition-all group-hover:text-2xl">
+                <span className="flex h-8 w-6 items-center justify-center text-right transition-all group-hover:text-xl">
                   &gt;
                 </span>
                 <span className="flex flex-col">
