@@ -31,7 +31,7 @@ const ItemCounter: React.FC<ItemCounterProps> = ({
     <div className="flex items-center space-x-2">
       <button
         onClick={decrement}
-        className="font-mohave flex h-8 w-8 items-center justify-center text-2xl font-light text-moss-800 transition-all hover:text-3xl hover:text-moss-950"
+        className="font-mohave flex h-8 w-8 items-center justify-center text-2xl font-light text-moss-800 transition-all hover:text-3xl"
         aria-label="Decrease quantity"
       >
         -
@@ -41,7 +41,7 @@ const ItemCounter: React.FC<ItemCounterProps> = ({
       </span>
       <button
         onClick={increment}
-        className="font-mohave flex h-8 w-8 items-center justify-center text-2xl font-light text-moss-800 transition-all hover:text-3xl hover:text-moss-950"
+        className="font-mohave flex h-8 w-8 items-center justify-center text-2xl font-light text-moss-800 transition-all hover:text-3xl"
         aria-label="Increase quantity"
       >
         +
