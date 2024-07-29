@@ -115,7 +115,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         className="flex flex-col items-center justify-center space-y-4"
         style={{ height: '20%' }}
       >
-        <h3 className="font-mohave text-3xl font-light tracking-wider text-moss-800">
+        <h3 className="font-mohave text-2xl font-light tracking-wider text-moss-800">
           {name}
         </h3>
         <div className="flex items-center gap-8">
