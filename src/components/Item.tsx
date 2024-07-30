@@ -49,6 +49,12 @@ const ingredientPositions = {
   ],
 };
 
+const bubbleSizes = ['h-4 w-4', 'h-5 w-5', 'h-6 w-6', 'h-7 w-7', 'h-8 w-8'];
+
+const getBubbleSize = (index: number) => {
+  return bubbleSizes[index % bubbleSizes.length];
+};
+
 function Cube() {
   return (
     <Box args={[1, 1, 1]}>
@@ -94,6 +100,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             ingredient={ingredient}
             isHovered={isHovered}
             position={positions[index] || positions[positions.length - 1]}
+            bubbleSize={getBubbleSize(index)}
           />
         ))}
 

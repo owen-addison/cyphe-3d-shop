@@ -5,12 +5,14 @@ interface FloatingInfoPointProps {
   ingredient: string;
   isHovered: boolean;
   position: { top: string; left: string };
+  bubbleSize: string;
 }
 
 const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
   ingredient,
   isHovered,
   position,
+  bubbleSize,
 }) => {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,7 +70,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
         animate={controls}
       >
         <div
-          className={`bubble-container mr-2 transition-all duration-700 ${isHovered ? 'h-4 w-4' : 'h-8 w-8'}`}
+          className={`bubble-container mr-2 transition-all duration-700 ${isHovered ? 'h-2 w-2' : bubbleSize}`}
         >
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
