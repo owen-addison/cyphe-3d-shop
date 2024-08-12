@@ -23,20 +23,21 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
       const containerWidth = container.offsetWidth;
       const containerHeight = container.offsetHeight;
 
+      const animationConfig: AnimationConfig = {
+        directionChangeRate: 0.02,
+        repulsionStrength: 0.1,
+        timeScale: 0.5,
+        baseSpeed: 0.5,
+        edgeBuffer: 20, // pixels from edge to start repulsion
+      };
+
       const bubble = createBubble(
         containerWidth / 2,
         containerHeight / 2,
         containerWidth,
         containerHeight,
+        animationConfig.baseSpeed, // Add this line
       );
-
-      const animationConfig: AnimationConfig = {
-        brownianStrength: 0.08,
-        springConstant: 0.0005,
-        boundaryStrength: 20,
-        damping: 0.98,
-        timeScale: 0.9,
-      };
 
       const animate = () => {
         animateBubble(
