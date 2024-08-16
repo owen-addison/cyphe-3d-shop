@@ -49,7 +49,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
     };
 
     animate(); // Run immediately
-    const intervalId = setInterval(animate, 7000); // Then every 10 seconds
+    const intervalId = setInterval(animate, 7000); // Then every 7 seconds
 
     return () => clearInterval(intervalId); // Clean up function
   };
@@ -75,7 +75,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
-          className={`ingredient-container font-mohave max-w-[120px] overflow-hidden whitespace-nowrap font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
         >
           {ingredient.toLocaleLowerCase()}
         </div>
