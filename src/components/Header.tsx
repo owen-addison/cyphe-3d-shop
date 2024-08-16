@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
       </div>
       <div className="flex w-1/2 justify-center">
         <div className="flex items-center justify-center">
-          <p className="font-maven group cursor-pointer text-center text-base font-light tracking-wider-2 text-moss-950 transition duration-300">
+          <p className="group cursor-pointer text-center font-maven text-base font-light tracking-wider-2 text-moss-950 transition duration-300">
             cart
             <span className="block h-0.5 max-w-0 bg-moss-950 bg-opacity-70 transition-all duration-500 group-hover:max-w-full"></span>
           </p>
@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
       <div className="flex w-1/4 justify-end">
         <div className="flex items-center justify-center">
           <p
-            className="font-maven group cursor-pointer text-center text-base font-light tracking-wider-2 text-moss-950 transition duration-300"
+            className="group cursor-pointer text-center font-maven text-base font-light tracking-wider-2 text-moss-950 transition duration-300"
             onClick={onShowInfo}
           >
             info
