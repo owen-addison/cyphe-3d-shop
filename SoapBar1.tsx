@@ -4,28 +4,30 @@ Command: npx gltfjsx@6.5.3 public/model/soapBar1.gltf --types --transform
 Files: public/model/soapBar1.gltf [2.6KB] > /Users/owen/repos/cyphe-3d-shop/soapBar1-transformed.glb [52.47KB] (-1918%)
 */
 
-import * as THREE from 'three'
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import * as THREE from 'three';
+import React from 'react';
+import { useGLTF } from '@react-three/drei';
+import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
-    Soap_Bar: THREE.Mesh
-  }
+    Soap_Bar: THREE.Mesh;
+  };
   materials: {
-    Material: THREE.MeshStandardMaterial
-  }
-  animations: GLTFAction[]
-}
+    Material: THREE.MeshStandardMaterial;
+  };
+  animations: GLTFAction[];
+};
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/soapBar1-transformed.glb') as GLTFResult
+  const { nodes, materials } = useGLTF(
+    '/model/soapBar1-transformed.glb',
+  ) as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Soap_Bar.geometry} material={materials.Material} />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/soapBar1-transformed.glb')
+useGLTF.preload('/model/soapBar1-transformed.glb');
