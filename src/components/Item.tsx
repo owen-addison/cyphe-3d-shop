@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Model as SoapBar1 } from './SoapBar1';
 import { Canvas } from '@react-three/fiber';
-import { Box } from '@react-three/drei';
+// import { Box } from '@react-three/drei';
 import FloatingInfoPoint from './FloatingInfoPoint';
 import ItemCounter from './ItemCounter';
 
@@ -55,13 +56,13 @@ const getBubbleSize = (index: number) => {
   return bubbleSizes[index % bubbleSizes.length];
 };
 
-function Cube() {
-  return (
-    <Box args={[1, 1, 1]}>
-      <meshStandardMaterial color="hotpink" />
-    </Box>
-  );
-}
+// function Cube() {
+//   return (
+//     <Box args={[1, 1, 1]}>
+//       <meshStandardMaterial color="hotpink" />
+//     </Box>
+//   );
+// }
 
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
@@ -113,7 +114,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <Canvas>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
-            <Cube />
+            <SoapBar1 />
           </Canvas>
         </div>
       </div>
@@ -129,7 +130,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
             <button
-              className="font-mohave group cursor-pointer text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
+              className="group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               onClick={addToCart}
             >
               <span className="flex flex-row items-center">
