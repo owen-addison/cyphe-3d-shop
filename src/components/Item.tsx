@@ -112,7 +112,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
         >
-          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+          <Canvas camera={{ position: [1, 3, 5], fov: 45 }}>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
             <OrbitControls />
