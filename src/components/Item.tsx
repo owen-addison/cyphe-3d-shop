@@ -111,10 +111,10 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
         >
-          <Canvas>
+          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
-            <SoapBar1 />
+            <SoapBar1 scale={30} />
           </Canvas>
         </div>
       </div>
