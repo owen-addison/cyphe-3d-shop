@@ -41,6 +41,7 @@ export default {
         cardo: ['Cardo', 'serif'],
       },
       letterSpacing: {
+        'wider-1': '0.1em',
         'wider-2': '0.2em',
         'wider-3': '0.3em',
       },
