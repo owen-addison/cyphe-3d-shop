@@ -8,10 +8,8 @@ const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
   return (
     <div className="header min-w-screen z-40 flex h-16 items-center justify-between border-b border-moss-800 px-4">
       <div className="flex w-1/4 items-center">
-        <div className="flex w-1/4 items-center">
-          <div className="font-['Cardo'] text-2xl font-bold tracking-wider-3 text-moss-950">
-            kli:.me
-          </div>
+        <div className="font-cardo text-2xl font-bold tracking-wider-2 text-moss-950">
+          'kliː.mə´
         </div>
       </div>
       <div className="flex w-1/2 justify-center">
