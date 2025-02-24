@@ -129,7 +129,11 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             <pointLight position={[10, 10, 10]} intensity={0.8} />
             <pointLight position={[-10, -10, -10]} intensity={0.5} />
             <pointLight position={[0, 0, 5]} intensity={0.5} />
-            <OrbitControls enableZoom={false} enablePan={true} />
+            <OrbitControls
+              enableZoom={false}
+              enablePan={true}
+              enableDamping={false}
+            />
             <SoapBar1 scale={30} />
           </Canvas>
         </div>
