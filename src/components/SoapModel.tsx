@@ -12,7 +12,7 @@ const SoapModel: React.FC<{ mousePosition: { x: number; y: number } }> = ({
     if (modelRef.current) {
       const rotationSpeed = 0.1;
       const targetRotationY = mousePosition.x * Math.PI * 0.5;
-      const targetRotationX = mousePosition.y * Math.PI * 0.2;
+      const targetRotationX = -mousePosition.y * Math.PI * 0.2;
 
       modelRef.current.rotation.y +=
         (targetRotationY - modelRef.current.rotation.y) * rotationSpeed;
