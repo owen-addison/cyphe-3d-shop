@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { Model as SoapBar1 } from './SoapBar1';
-import { OrbitControls } from '@react-three/drei';
+import React, { useEffect, useState } from 'react';
+import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
-// import { Box } from '@react-three/drei';
 import FloatingInfoPoint from './FloatingInfoPoint';
 import ItemCounter from './ItemCounter';
 
@@ -57,18 +55,24 @@ const getBubbleSize = (index: number) => {
   return bubbleSizes[index % bubbleSizes.length];
 };
 
-// function Cube() {
-//   return (
-//     <Box args={[1, 1, 1]}>
-//       <meshStandardMaterial color="hotpink" />
-//     </Box>
-//   );
-// }
-
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      // Convert mouse position to normalized coordinates (-1 to 1)
+      setMousePosition({
+        x: (event.clientX / window.innerWidth) * 2 - 1,
+        y: -(event.clientY / window.innerHeight) * 2 + 1,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const positions =
     ingredientPositions[
@@ -129,12 +133,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             <pointLight position={[10, 10, 10]} intensity={0.8} />
             <pointLight position={[-10, -10, -10]} intensity={0.5} />
             <pointLight position={[0, 0, 5]} intensity={0.5} />
-            <OrbitControls
-              enableZoom={false}
-              enablePan={true}
-              enableDamping={false}
-            />
-            <SoapBar1 scale={30} />
+            <SoapModel mousePosition={mousePosition} />
           </Canvas>
         </div>
       </div>
