@@ -117,7 +117,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           onMouseLeave={() => handleHover(false)}
         >
           <Canvas camera={{ position: [1, 3, 5], fov: 45 }}>
-            <ambientLight intensity={1.2} />
+            <ambientLight intensity={1.0} />
             <directionalLight
               position={[5, 5, 5]}
               intensity={0.8}
@@ -125,14 +125,14 @@ const Item: React.FC<ItemProps> = ({ data }) => {
               castShadow={false}
             />
             <directionalLight
-              position={[-3, -4, -6]}
-              intensity={0.6}
+              position={[-12, 2, 0]}
+              intensity={0.5}
               // eslint-disable-next-line react/no-unknown-property
               castShadow={false}
             />
-            <pointLight position={[10, 10, 10]} intensity={0.8} />
+            <pointLight position={[10, 10, 10]} intensity={0.2} />
             <pointLight position={[-10, -10, -10]} intensity={0.5} />
-            <pointLight position={[0, 0, 5]} intensity={0.5} />
+            <pointLight position={[0, 0, 5]} intensity={0.2} />
             <SoapModel mousePosition={mousePosition} />
           </Canvas>
         </div>
