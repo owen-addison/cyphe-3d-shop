@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { Model as SoapBar1 } from './SoapBar1';
+// import { Model as SoapBar1 } from './SoapBar1';
+import { Model as SoapBar2 } from './SoapBar2';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -23,7 +24,7 @@ const SoapModel: React.FC<{ mousePosition: { x: number; y: number } }> = ({
 
   return (
     <group ref={modelRef}>
-      <SoapBar1 scale={30} />
+      <SoapBar2 scale={40} />
     </group>
   );
 };
