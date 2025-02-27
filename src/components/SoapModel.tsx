@@ -24,7 +24,7 @@ const SoapModel: React.FC<{ mousePosition: { x: number; y: number } }> = ({
 
   return (
     <group ref={modelRef}>
-      <SoapBar2 scale={40} rotation={[0, -Math.PI / 2, 0]} />
+      <SoapBar2 scale={40} rotation={[Math.PI / 6, -Math.PI / 2, 0]} />
     </group>
   );
 };
