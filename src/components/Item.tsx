@@ -112,7 +112,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
 
         <div
           className="canvas-container"
-          style={{ width: '400px', height: '400px' }}
+          style={{ width: '450px', height: '450px' }}
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
         >
