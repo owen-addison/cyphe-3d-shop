@@ -1,0 +1,54 @@
+import { useEffect } from 'react';
+
+const SnipcartInitialiser = () => {
+  useEffect(() => {
+    // Set up Snipcart settings
+    window.SnipcartSettings = {
+      publicApiKey: import.meta.env.VITE_SNIPCART_API_KEY,
+      loadStrategy: 'on-user-interaction',
+      version: '3.0',
+    };
+
+    // Create Snipcart container
+    const snipcartDiv = document.createElement('div');
+    snipcartDiv.id = 'snipcart';
+    snipcartDiv.setAttribute('hidden', 'true');
+    document.body.appendChild(snipcartDiv);
+
+    // Add Snipcart JS
+    const script = document.createElement('script');
+    script.src = 'https://cdn.snipcart.com/themes/v3.0/default/snipcart.js';
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Add Snipcart CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://cdn.snipcart.com/themes/v3.0/default/snipcart.css';
+    document.head.appendChild(link);
+
+    return () => {
+      // Cleanup on unmount
+      if (script.parentNode) document.head.removeChild(script);
+      if (link.parentNode) document.head.removeChild(link);
+      if (snipcartDiv.parentNode) document.body.removeChild(snipcartDiv);
+    };
+  }, []);
+
+  return null;
+};
+
+// Add this for TypeScript
+declare global {
+  interface Window {
+    SnipcartSettings: {
+      publicApiKey: string;
+      loadStrategy: string;
+      version: string;
+      [key: string]: any;
+    };
+  }
+}
+
+export default SnipcartInitialiser;
