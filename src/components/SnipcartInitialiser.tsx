@@ -39,14 +39,19 @@ const SnipcartInitialiser = () => {
   return null;
 };
 
-// Add this for TypeScript
 declare global {
   interface Window {
     SnipcartSettings: {
       publicApiKey: string;
       loadStrategy: string;
       version: string;
-      [key: string]: any;
+      timeoutDuration?: number;
+      domain?: string;
+      protocol?: string;
+      addProductBehavior?: string;
+      modalStyle?: string;
+      currency?: string;
+      templatesUrl?: string;
     };
   }
 }
