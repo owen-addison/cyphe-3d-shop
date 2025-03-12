@@ -98,3 +98,11 @@
 .snipcart-item-quantity__quantity {
   color: var(--color-default);
 }
+
+.snipcart-item-quantity__quantity,
+.snipcart-item-quantity input,
+.snipcart-item-quantity__quantity.snipcart__font--std {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #6d6e6b !important;
+}
