@@ -58,7 +58,7 @@ const getBubbleSize = (index: number) => {
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const [isHovered, setIsHovered] = useState(false);
-  const [itemCount, setItemCount] = useState(0);
+  const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -148,6 +148,16 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         <div className="flex items-center gap-8">
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
+            <button
+              className="snipcart-add-item"
+              data-item-id={id.toString()}
+              data-item-name={name}
+              data-item-price="12.00"
+              data-item-url="/api/items.json"
+              data-item-quantity="1"
+            >
+              Test Add to Cart
+            </button>
             <button
               className="snipcart-add-item group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               onClick={(e) => e.stopPropagation()} // Just stop propagation, don't prevent default
