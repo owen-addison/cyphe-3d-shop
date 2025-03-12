@@ -42,7 +42,7 @@
 .snipcart,
 .snipcart-modal,
 .snipcart-cart {
-  --color-background: #f9f7f3;
+  --color-background: #dbddd6;
   --color-default: #6d6e6b; /* moss-800 */
   --color-alt: #dbddd6; /* moss-300 */
   --color-icon: #6d6e6b; /* moss-800 */
@@ -69,11 +69,21 @@
   --font-family: 'Mohave', 'Cardo', sans-serif;
 }
 
-.snipcart-modal__container {
-  background-color: var(--color-background);
+/* Add these selectors to target the main background */
+.snipcart-modal,
+.snipcart-modal__container,
+.snipcart-cart,
+.snipcart-cart__content,
+.snipcart-cart-header__close-button,
+.snipcart-modal__header {
+  background-color: #dbddd6 !important; /* moss-300 from your config */
 }
 
 .snipcart-cart-header {
+  background-color: var(--color-background) !important;
+}
+
+.snipcart-cart__footer {
   background-color: var(--color-background) !important;
 }
 
@@ -82,7 +92,7 @@
 }
 
 .snipcart-item-line {
-  background-color: var(--color-background) !important;
+  background-color: #e9ebe5 !important; /* slightly lighter than moss-300 */
 }
 
 .snipcart-item-quantity__quantity {
