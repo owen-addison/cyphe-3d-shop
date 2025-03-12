@@ -11,6 +11,17 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-default: #3e4f4a; /* Your moss-800 color */
+  --color-link: #3e4f4a;
+  --color-button-primary: #3e4f4a;
+  --color-button-primary-hover: #5a6e67; /* Lighter version */
+  --color-badge: #3e4f4a;
+  --color-badge-active: #5a6e67;
+  --borderRadius: 0; /* To match your design */
+  --color-icon: #3e4f4a;
+  --color-input: #fafafa;
+  --font-family: 'Mohave', 'Cardo', sans-serif; /* Use your fonts */
 }
 
 @font-face {
@@ -37,4 +48,49 @@
 .snipcart-cart__content,
 #snipcart {
   z-index: 100 !important;
+}
+
+.snipcart,
+.snipcart-modal,
+.snipcart-cart {
+  --color-background: #f9f7f3; /* Light background color to match your site */
+  --color-default: #3e4f4a; /* Your moss color */
+  --color-alt: #3e4f4a; /* For secondary elements */
+  --color-icon: #3e4f4a; /* For icons */
+  --color-success: #3e4f4a; /* For success messages/buttons */
+  --color-error: #b33a3a; /* Keep red for errors */
+
+  /* Button colors */
+  --color-button-primary: #3e4f4a;
+  --color-button-primary-hover: #526a64;
+  --color-button-secondary: #f9f7f3;
+  --color-button-secondary-hover: #e6e2d9;
+
+  /* Input elements */
+  --color-input: #ffffff;
+  --color-input-focus: #ffffff;
+  --color-input-error: #ffecef;
+  --color-input-disabled: #f5f5f5;
+
+  /* Border radius for all elements */
+  --border-radius-modal: 0;
+  --border-radius-box: 0;
+  --border-radius-input: 0;
+  --border-radius-button: 0;
+
+  /* Font settings */
+  --font-family: 'Mohave', 'Cardo', sans-serif;
+}
+
+/* Override specific elements if needed */
+.snipcart-cart-header {
+  background-color: #f9f7f3 !important;
+}
+
+.snipcart-cart-button--highlight {
+  background-color: #3e4f4a !important;
+}
+
+.snipcart-item-line {
+  background-color: #f9f7f3 !important;
 }
