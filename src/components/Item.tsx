@@ -160,13 +160,13 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             </button>
             <button
               className="snipcart-add-item group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
-              onClick={(e) => e.stopPropagation()} // Just stop propagation, don't prevent default
               data-item-id={id.toString()}
               data-item-name={name}
-              data-item-price="12.00" // Need to add price to ItemData interface
-              data-item-url="/api/items.json" // URL where Snipcart can get product data
+              data-item-price="12.00"
               data-item-description={`Handmade soap with ${ingredients.join(', ')}`}
               data-item-quantity={itemCount}
+              data-item-has-taxes-included="false"
+              // data-config-add-to-cart-behavior="none"
             >
               <span className="flex flex-row items-center">
                 <span className="flex h-8 w-6 items-center justify-center text-right transition-all group-hover:text-xl">

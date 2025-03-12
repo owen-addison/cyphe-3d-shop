@@ -20,6 +20,7 @@ const SnipcartInitialiser = () => {
       publicApiKey: import.meta.env.VITE_SNIPCART_API_KEY,
       loadStrategy: 'on-user-interaction',
       version: '3.0',
+      addProductBehavior: 'none',
     };
 
     // Create Snipcart container
