@@ -1,7 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const SnipcartInitialiser = () => {
+  const [isInitialised, setIsInitialised] = useState(false);
+
   useEffect(() => {
+    // Only initialize once
+    if (isInitialised) {
+      return;
+    }
+
+    // Check if Snipcart div already exists
+    if (document.getElementById('snipcart')) {
+      setIsInitialised(true);
+      return;
+    }
+
     // Set up Snipcart settings
     window.SnipcartSettings = {
       publicApiKey: import.meta.env.VITE_SNIPCART_API_KEY,
@@ -28,13 +41,8 @@ const SnipcartInitialiser = () => {
     link.href = 'https://cdn.snipcart.com/themes/v3.0/default/snipcart.css';
     document.head.appendChild(link);
 
-    return () => {
-      // Cleanup on unmount
-      if (script.parentNode) document.head.removeChild(script);
-      if (link.parentNode) document.head.removeChild(link);
-      if (snipcartDiv.parentNode) document.body.removeChild(snipcartDiv);
-    };
-  }, []);
+    setIsInitialised(true);
+  }, [isInitialised]);
 
   return null;
 };

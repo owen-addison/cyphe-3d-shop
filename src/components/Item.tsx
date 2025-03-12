@@ -87,12 +87,12 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     setItemCount(count);
   };
 
-  const addToCart = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    event.stopPropagation();
-    console.log(`Add ${itemCount} item(s) to cart, id = ${id}, name = ${name}`);
-  };
+  // const addToCart = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  // ) => {
+  //   event.stopPropagation();
+  //   console.log(`Add ${itemCount} item(s) to cart, id = ${id}, name = ${name}`);
+  // };
 
   return (
     <div className="item flex h-screen flex-col">
@@ -150,7 +150,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <div className="flex items-center justify-center">
             <button
               className="snipcart-add-item group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
-              onClick={addToCart}
+              onClick={(e) => e.stopPropagation()} // Just stop propagation, don't prevent default
               data-item-id={id.toString()}
               data-item-name={name}
               data-item-price="12.00" // Need to add price to ItemData interface
