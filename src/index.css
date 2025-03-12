@@ -106,3 +106,7 @@
   visibility: visible !important;
   color: #6d6e6b !important;
 }
+
+.snipcart-empty-cart__title {
+  color: #6d6e6b !important;
+}
