@@ -91,7 +91,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event.stopPropagation();
-    console.log(`Add ${itemCount} item(s) to cart, id = ${id}`);
+    console.log(`Add ${itemCount} item(s) to cart, id = ${id}, name = ${name}`);
   };
 
   return (
@@ -149,8 +149,14 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
             <button
-              className="group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
+              className="snipcart-add-item group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               onClick={addToCart}
+              data-item-id={id.toString()}
+              data-item-name={name}
+              data-item-price="12.00" // Need to add price to ItemData interface
+              data-item-url="/api/items.json" // URL where Snipcart can get product data
+              data-item-description={`Handmade soap with ${ingredients.join(', ')}`}
+              data-item-quantity={itemCount}
             >
               <span className="flex flex-row items-center">
                 <span className="flex h-8 w-6 items-center justify-center text-right transition-all group-hover:text-xl">

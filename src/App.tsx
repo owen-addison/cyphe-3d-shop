@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Info from './components/Info';
 import Item from './components/Item';
+import SnipcartInitialiser from './components/SnipcartInitialiser';
 import './App.css';
 
 interface ItemData {
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <SnipcartInitialiser />
       <Header onShowInfo={() => setShowInfo(true)} />
       <div className="item-container">
         {items.map((item) => (
