@@ -149,16 +149,6 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           <ItemCounter onCountChange={handleCountChange} />
           <div className="flex items-center justify-center">
             <button
-              className="snipcart-add-item"
-              data-item-id={id.toString()}
-              data-item-name={name}
-              data-item-price="12.00"
-              data-item-url="/api/items.json"
-              data-item-quantity="1"
-            >
-              Test Add to Cart
-            </button>
-            <button
               className="snipcart-add-item group cursor-pointer font-mohave text-lg font-light tracking-wider text-moss-800 transition duration-300 group-hover:text-2xl"
               data-item-id={id.toString()}
               data-item-name={name}
@@ -166,7 +156,6 @@ const Item: React.FC<ItemProps> = ({ data }) => {
               data-item-description={`Handmade soap with ${ingredients.join(', ')}`}
               data-item-quantity={itemCount}
               data-item-has-taxes-included="false"
-              // data-config-add-to-cart-behavior="none"
             >
               <span className="flex flex-row items-center">
                 <span className="flex h-8 w-6 items-center justify-center text-right transition-all group-hover:text-xl">
