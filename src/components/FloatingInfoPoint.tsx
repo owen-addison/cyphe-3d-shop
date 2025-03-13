@@ -62,7 +62,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
   return (
     <div
       ref={containerRef}
-      className="float-container absolute z-30 h-40 w-52"
+      className="float-container pointer-events-none absolute z-30 h-40 w-52"
       style={{ top: position.top, left: position.left }}
     >
       <motion.div
