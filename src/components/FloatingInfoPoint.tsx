@@ -75,7 +75,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
-          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
         >
           {ingredient.toLocaleLowerCase()}
         </div>

@@ -43,6 +43,12 @@ html {
   padding-top: var(--header-height);
 }
 
+/* Styles for the floating info points and their respective ingredients
+*/
+/* .ingredient-container {
+  mix-blend-mode: difference;
+} */
+
 /* Styles for the Header component */
 .header {
   position: fixed;
