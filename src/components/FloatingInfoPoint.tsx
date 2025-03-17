@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { useResponsive } from '../hooks/useResponsive';
 
 interface FloatingInfoPointProps {
   ingredient: string;
@@ -16,6 +17,10 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
 }) => {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const { isTouchDevice } = useResponsive();
+  // On touch devices, we might want to always show the ingredients or have a different interaction pattern
+  const isVisible = isTouchDevice || isHovered;
 
   const generateRandomPosition = () => {
     if (containerRef.current) {
@@ -70,12 +75,12 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
         animate={controls}
       >
         <div
-          className={`bubble-container mr-2 transition-all duration-700 ${isHovered ? 'h-2 w-2' : bubbleSize}`}
+          className={`bubble-container mr-2 transition-all duration-700 ${isVisible ? 'h-2 w-2' : bubbleSize}`}
         >
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
-          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isHovered ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
+          className={`ingredient-container max-w-[120px] overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isVisible ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}
         >
           {ingredient.toLocaleLowerCase()}
         </div>
