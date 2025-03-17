@@ -58,3 +58,6 @@ dist-ssr
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# File structure files
+file_structure.txt
