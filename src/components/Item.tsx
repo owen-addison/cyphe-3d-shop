@@ -134,26 +134,44 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   // };
 
   return (
-    <div className="item flex h-screen flex-col">
+    <div className="item flex h-screen flex-col md:flex-row">
+      {/* For mobile, stack vertically; for tablet and desktop, use horizontal layout */}
       <div
-        className="relative flex w-full flex-grow items-center justify-center"
-        style={{ height: '80%' }}
+        className={`relative flex w-full items-center justify-center ${
+          isMobile ? 'h-2/3' : isTablet ? 'h-3/4' : 'h-80%'
+        }`}
       >
-        {ingredients.map((ingredient, index) => (
-          <FloatingInfoPoint
-            key={index}
-            ingredient={ingredient}
-            isHovered={isHovered}
-            position={positions[index] || positions[positions.length - 1]}
-            bubbleSize={getBubbleSize(index)}
-          />
-        ))}
+        {/* Floating info points - for mobile, position them differently */}
+        {isMobile ? (
+          <div className="w-full px-4 py-2">
+            <div className="flex flex-wrap justify-center gap-2">
+              {ingredients.map((ingredient, index) => (
+                <div
+                  key={index}
+                  className="rounded-full bg-moss-300 px-3 py-1 text-xs font-light tracking-wider text-moss-800"
+                >
+                  {ingredient.toLowerCase()}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          ingredients.map((ingredient, index) => (
+            <FloatingInfoPoint
+              key={index}
+              ingredient={ingredient}
+              isHovered={isHovered}
+              position={positions[index] || positions[positions.length - 1]}
+              bubbleSize={getBubbleSize(index)}
+            />
+          ))
+        )}
 
         <div
           className="canvas-container"
           style={{ width: canvasSize.width, height: canvasSize.height }}
-          onMouseEnter={() => handleHover(true)}
-          onMouseLeave={() => handleHover(false)}
+          onMouseEnter={() => !isTouchDevice && handleHover(true)}
+          onMouseLeave={() => !isTouchDevice && handleHover(false)}
           onTouchStart={handleTouch}
           onTouchMove={handleTouch}
           onTouchEnd={handleTouchEnd}
@@ -184,9 +202,11 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         </div>
       </div>
 
+      {/* Product info and add to cart section */}
       <div
-        className="my-8 flex flex-col items-center justify-start gap-4 space-y-4"
-        style={{ height: '20%' }}
+        className={`flex flex-col items-center justify-start gap-4 space-y-4 ${
+          isMobile ? 'h-1/3 py-2' : isTablet ? 'my-4 h-1/4' : 'h-20% my-8'
+        }`}
       >
         <h3 className="font-mohave text-2xl font-light tracking-wider text-moss-800">
           {name}
