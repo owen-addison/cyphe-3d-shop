@@ -3,6 +3,7 @@ import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
 import FloatingInfoPoint from './FloatingInfoPoint';
 import ItemCounter from './ItemCounter';
+import { useResponsive } from '../hooks/useResponsive';
 
 interface ItemData {
   id: number;
@@ -60,6 +61,20 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { deviceType, isMobile, isTablet, isTouchDevice } = useResponsive();
+
+  // Determine canvas size based on device type
+  const getCanvasSize = () => {
+    if (isMobile) {
+      return { width: '300px', height: '300px' };
+    } else if (isTablet) {
+      return { width: '380px', height: '380px' };
+    } else {
+      return { width: '450px', height: '450px' };
+    }
+  };
+
+  const canvasSize = getCanvasSize();
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -112,7 +127,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
 
         <div
           className="canvas-container"
-          style={{ width: '450px', height: '450px' }}
+          style={{ width: canvasSize.width, height: canvasSize.height }}
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
         >
