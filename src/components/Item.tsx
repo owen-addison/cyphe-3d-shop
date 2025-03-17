@@ -58,7 +58,7 @@ const getBubbleSize = (index: number) => {
 
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
-  const { deviceType, isMobile, isTablet, isTouchDevice } = useResponsive();
+  const { isMobile, isTablet, isTouchDevice } = useResponsive();
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -134,44 +134,35 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   // };
 
   return (
-    <div className="item flex h-screen flex-col md:flex-row">
-      {/* For mobile, stack vertically; for tablet and desktop, use horizontal layout */}
+    <div className="item flex h-screen flex-col">
+      {/* Container for the 3D model and floating info points */}
       <div
-        className={`relative flex w-full items-center justify-center ${
-          isMobile ? 'h-2/3' : isTablet ? 'h-3/4' : 'h-80%'
-        }`}
+        className="relative flex w-full flex-grow items-center justify-center"
+        style={{
+          // Adjust height based on device for better proportions
+          height: isMobile ? '70%' : isTablet ? '75%' : '80%',
+        }}
       >
-        {/* Floating info points - for mobile, position them differently */}
-        {isMobile ? (
-          <div className="w-full px-4 py-2">
-            <div className="flex flex-wrap justify-center gap-2">
-              {ingredients.map((ingredient, index) => (
-                <div
-                  key={index}
-                  className="rounded-full bg-moss-300 px-3 py-1 text-xs font-light tracking-wider text-moss-800"
-                >
-                  {ingredient.toLowerCase()}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          ingredients.map((ingredient, index) => (
-            <FloatingInfoPoint
-              key={index}
-              ingredient={ingredient}
-              isHovered={isHovered}
-              position={positions[index] || positions[positions.length - 1]}
-              bubbleSize={getBubbleSize(index)}
-            />
-          ))
-        )}
+        {/* Show floating info points on all device types */}
+        {ingredients.map((ingredient, index) => (
+          <FloatingInfoPoint
+            key={index}
+            ingredient={ingredient}
+            // On touch devices, isHovered should be forced to true to show ingredients
+            isHovered={isTouchDevice || isHovered}
+            position={positions[index] || positions[positions.length - 1]}
+            bubbleSize={getBubbleSize(index)}
+          />
+        ))}
 
         <div
           className="canvas-container"
-          style={{ width: canvasSize.width, height: canvasSize.height }}
-          onMouseEnter={() => !isTouchDevice && handleHover(true)}
-          onMouseLeave={() => !isTouchDevice && handleHover(false)}
+          style={{
+            width: canvasSize.width,
+            height: canvasSize.height,
+          }}
+          onMouseEnter={() => handleHover(true)}
+          onMouseLeave={() => handleHover(false)}
           onTouchStart={handleTouch}
           onTouchMove={handleTouch}
           onTouchEnd={handleTouchEnd}
@@ -202,11 +193,15 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Product info and add to cart section */}
+      {/* Product info and cart section */}
       <div
-        className={`flex flex-col items-center justify-start gap-4 space-y-4 ${
-          isMobile ? 'h-1/3 py-2' : isTablet ? 'my-4 h-1/4' : 'h-20% my-8'
-        }`}
+        className="flex flex-col items-center justify-start gap-4 space-y-4"
+        style={{
+          // Adjust height based on device
+          height: isMobile ? '30%' : isTablet ? '25%' : '20%',
+          // Adjust padding/margin based on device
+          padding: isMobile ? '0.5rem 0' : isTablet ? '1rem 0' : '2rem 0',
+        }}
       >
         <h3 className="font-mohave text-2xl font-light tracking-wider text-moss-800">
           {name}
