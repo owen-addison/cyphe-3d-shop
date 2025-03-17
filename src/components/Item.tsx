@@ -3,7 +3,7 @@ import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
 import FloatingInfoPoint from './FloatingInfoPoint';
 import ItemCounter from './ItemCounter';
-import { useResponsive } from '../hooks/useResponsive';
+import { useResponsive, DeviceType } from '../hooks/useResponsive';
 
 interface ItemData {
   id: number;
@@ -16,38 +16,121 @@ interface ItemProps {
   data: ItemData;
 }
 
-const ingredientPositions = {
-  1: [{ top: '30%', left: '50%' }],
-  2: [
-    { top: '10%', left: '25%' },
-    { top: '50%', left: '60%' },
-  ],
-  3: [
-    { top: '35%', left: '20%' },
-    { top: '55%', left: '65%' },
-    { top: '3%', left: '45%' },
-  ],
-  4: [
-    { top: '15%', left: '20%' },
-    { top: '10%', left: '55%' },
-    { top: '55%', left: '27%' },
-    { top: '65%', left: '65%' },
-  ],
-  5: [
-    { top: '10%', left: '50%' },
-    { top: '30%', left: '20%' },
-    { top: '30%', left: '80%' },
-    { top: '55%', left: '30%' },
-    { top: '60%', left: '70%' },
-  ],
-  6: [
-    { top: '10%', left: '30%' },
-    { top: '10%', left: '70%' },
-    { top: '25%', left: '10%' },
-    { top: '35%', left: '60%' },
-    { top: '50%', left: '30%' },
-    { top: '60%', left: '70%' },
-  ],
+// Define device-specific position maps
+const getIngredientPositions = (deviceType: DeviceType) => {
+  // Base positions
+  const basePositions = {
+    1: [{ top: '30%', left: '50%' }],
+    2: [
+      { top: '10%', left: '25%' },
+      { top: '50%', left: '60%' },
+    ],
+    3: [
+      { top: '35%', left: '20%' },
+      { top: '55%', left: '65%' },
+      { top: '3%', left: '45%' },
+    ],
+    4: [
+      { top: '15%', left: '20%' },
+      { top: '10%', left: '55%' },
+      { top: '55%', left: '27%' },
+      { top: '65%', left: '65%' },
+    ],
+    5: [
+      { top: '10%', left: '50%' },
+      { top: '30%', left: '20%' },
+      { top: '30%', left: '80%' },
+      { top: '55%', left: '30%' },
+      { top: '60%', left: '70%' },
+    ],
+    6: [
+      { top: '10%', left: '30%' },
+      { top: '10%', left: '70%' },
+      { top: '25%', left: '10%' },
+      { top: '35%', left: '60%' },
+      { top: '50%', left: '30%' },
+      { top: '60%', left: '70%' },
+    ],
+  };
+
+  // Mobile positions - constrained closer to center
+  const mobilePositions = {
+    1: [{ top: '30%', left: '50%' }],
+    2: [
+      { top: '20%', left: '35%' },
+      { top: '50%', left: '55%' },
+    ],
+    3: [
+      { top: '30%', left: '25%' },
+      { top: '50%', left: '60%' },
+      { top: '10%', left: '45%' },
+    ],
+    4: [
+      { top: '20%', left: '25%' },
+      { top: '20%', left: '55%' },
+      { top: '55%', left: '35%' },
+      { top: '55%', left: '65%' },
+    ],
+    5: [
+      { top: '15%', left: '50%' },
+      { top: '35%', left: '25%' },
+      { top: '35%', left: '75%' },
+      { top: '55%', left: '35%' },
+      { top: '55%', left: '65%' },
+    ],
+    6: [
+      { top: '15%', left: '35%' },
+      { top: '15%', left: '65%' },
+      { top: '35%', left: '20%' },
+      { top: '35%', left: '55%' },
+      { top: '55%', left: '35%' },
+      { top: '55%', left: '65%' },
+    ],
+  };
+
+  // Tablet positions - slightly more constrained than desktop
+  const tabletPositions = {
+    1: [{ top: '30%', left: '50%' }],
+    2: [
+      { top: '15%', left: '30%' },
+      { top: '50%', left: '60%' },
+    ],
+    3: [
+      { top: '35%', left: '25%' },
+      { top: '55%', left: '65%' },
+      { top: '10%', left: '45%' },
+    ],
+    4: [
+      { top: '15%', left: '25%' },
+      { top: '15%', left: '55%' },
+      { top: '55%', left: '30%' },
+      { top: '60%', left: '65%' },
+    ],
+    5: [
+      { top: '10%', left: '50%' },
+      { top: '30%', left: '25%' },
+      { top: '30%', left: '75%' },
+      { top: '55%', left: '35%' },
+      { top: '55%', left: '65%' },
+    ],
+    6: [
+      { top: '10%', left: '30%' },
+      { top: '10%', left: '65%' },
+      { top: '30%', left: '15%' },
+      { top: '35%', left: '55%' },
+      { top: '50%', left: '35%' },
+      { top: '55%', left: '65%' },
+    ],
+  };
+
+  // Return the appropriate positions based on device type
+  if (deviceType === 'mobile') {
+    return mobilePositions;
+  } else if (deviceType === 'tablet') {
+    return tabletPositions;
+  } else {
+    return basePositions;
+  }
 };
 
 const bubbleSizes = ['h-4 w-4', 'h-5 w-5', 'h-6 w-6', 'h-7 w-7', 'h-8 w-8'];
@@ -59,6 +142,12 @@ const getBubbleSize = (index: number) => {
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const { isMobile, isTablet, isTouchDevice } = useResponsive();
+  // Determine which device type we're dealing with for positioning
+  const deviceType: DeviceType = isMobile
+    ? 'mobile'
+    : isTablet
+      ? 'tablet'
+      : 'desktop';
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -113,10 +202,12 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     }, 1500); // Delay before returning to auto-rotation
   };
 
+  // Get positions based on device type
+  const ingredientPositionsMap = getIngredientPositions(deviceType);
   const positions =
-    ingredientPositions[
-      ingredients.length as keyof typeof ingredientPositions
-    ] || ingredientPositions[6];
+    ingredientPositionsMap[
+      ingredients.length as keyof typeof ingredientPositionsMap
+    ] || ingredientPositionsMap[6];
 
   const handleHover = (hovering: boolean) => {
     setIsHovered(hovering);
