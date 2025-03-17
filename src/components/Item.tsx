@@ -58,10 +58,12 @@ const getBubbleSize = (index: number) => {
 
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
+  const { deviceType, isMobile, isTablet, isTouchDevice } = useResponsive();
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { deviceType, isMobile, isTablet, isTouchDevice } = useResponsive();
+  const [autoRotate, setAutoRotate] = useState(isTouchDevice);
+  const [touchRotation, setTouchRotation] = useState({ x: 0, y: 0 });
 
   // Determine canvas size based on device type
   const getCanvasSize = () => {
@@ -88,6 +90,28 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Touch handlers
+  const handleTouch = (event: React.TouchEvent) => {
+    if (event.touches.length === 1) {
+      // Temporarily disable auto-rotation when user touches
+      setAutoRotate(false);
+
+      // Get touch position relative to container
+      const touch = event.touches[0];
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+
+      setTouchRotation({ x: y * 0.2, y: x * 0.5 });
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setAutoRotate(true);
+    }, 1500); // Delay before returning to auto-rotation
+  };
 
   const positions =
     ingredientPositions[
@@ -130,6 +154,9 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           style={{ width: canvasSize.width, height: canvasSize.height }}
           onMouseEnter={() => handleHover(true)}
           onMouseLeave={() => handleHover(false)}
+          onTouchStart={handleTouch}
+          onTouchMove={handleTouch}
+          onTouchEnd={handleTouchEnd}
         >
           <Canvas camera={{ position: [1, 3, 5], fov: 45 }}>
             <ambientLight intensity={1.0} />
@@ -148,7 +175,11 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             <pointLight position={[10, 10, 10]} intensity={0.2} />
             <pointLight position={[-10, -10, -10]} intensity={0.5} />
             <pointLight position={[0, 0, 5]} intensity={0.2} />
-            <SoapModel mousePosition={mousePosition} />
+            <SoapModel
+              mousePosition={mousePosition}
+              autoRotate={autoRotate}
+              touchRotation={touchRotation}
+            />
           </Canvas>
         </div>
       </div>
