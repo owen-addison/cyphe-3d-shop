@@ -18,6 +18,10 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const { isMobile } = useResponsive();
+  // Use smaller size containers on mobile
+  const containerSize = isMobile ? 'h-32 w-40' : 'h-40 w-52';
+
   const { isTouchDevice } = useResponsive();
   // On touch devices, we might want to always show the ingredients or have a different interaction pattern
   const isVisible = isTouchDevice || isHovered;
@@ -67,7 +71,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
   return (
     <div
       ref={containerRef}
-      className="float-container pointer-events-none absolute z-30 h-40 w-52"
+      className="float-container ${containerSize} pointer-events-none absolute z-30"
       style={{ top: position.top, left: position.left }}
     >
       <motion.div
