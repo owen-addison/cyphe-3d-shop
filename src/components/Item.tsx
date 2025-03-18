@@ -141,13 +141,7 @@ const getBubbleSize = (index: number) => {
 
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
-  const { isMobile, isTablet, isTouchDevice } = useResponsive();
-  // Determine which device type we're dealing with for positioning
-  const deviceType: DeviceType = isMobile
-    ? 'mobile'
-    : isTablet
-      ? 'tablet'
-      : 'desktop';
+  const { isMobile, isTablet, isTouchDevice, deviceType } = useResponsive();
   const [isHovered, setIsHovered] = useState(false);
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
