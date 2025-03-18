@@ -19,20 +19,41 @@ export function useResponsive() {
 
   const [deviceType, setDeviceType] = useState<DeviceType>('desktop');
 
+  const hasTouchCapability =
+    typeof window !== 'undefined' &&
+    ('ontouchstart' in window ||
+      (window.navigator &&
+        'maxTouchPoints' in navigator &&
+        navigator.maxTouchPoints > 0));
+
   useEffect(() => {
     const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-      if (window.innerWidth < breakpoints.md) {
-        setDeviceType('mobile');
-      } else if (window.innerWidth < breakpoints.lg) {
-        setDeviceType('tablet');
-      } else {
-        setDeviceType('desktop');
+      setWindowSize({ width, height });
+
+      // Determine device type based on both size and touch capability
+      let newDeviceType: DeviceType;
+
+      // Most mobile devices are touch-capable and smaller
+      if (width < breakpoints.md) {
+        newDeviceType = 'mobile';
       }
+      // Tablets are typically touch-capable and mid-sized
+      else if (width < breakpoints.lg) {
+        newDeviceType = 'tablet';
+      }
+      // Desktop devices are typically larger
+      else {
+        newDeviceType = 'desktop';
+      }
+
+      setDeviceType(newDeviceType);
+
+      console.log(
+        `Device info - Type: ${newDeviceType}, Touch: ${hasTouchCapability}, Width: ${width}px`,
+      );
     };
 
     // Initial call
@@ -43,13 +64,15 @@ export function useResponsive() {
 
     // Clean up
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [hasTouchCapability]);
 
   // Utility functions to check if we're at a specific breakpoint
   const isMobile = deviceType === 'mobile';
   const isTablet = deviceType === 'tablet';
   const isDesktop = deviceType === 'desktop';
-  const isTouchDevice = isMobile || isTablet;
+
+  // A true touch device has both touch capability AND is either mobile or tablet size
+  const isTouchDevice = hasTouchCapability && (isMobile || isTablet);
 
   return {
     windowSize,
@@ -57,6 +80,7 @@ export function useResponsive() {
     isMobile,
     isTablet,
     isDesktop,
+    hasTouchCapability,
     isTouchDevice,
   };
 }
