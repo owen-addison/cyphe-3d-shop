@@ -13,6 +13,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media screen and (min-width: 1025px) {
+  body {
+    min-width: 1024px;
+  }
+
+  .app-container {
+    min-width: 1024px;
+    overflow-x: auto;
+  }
+}
+
 @font-face {
   font-family: 'Cardo';
   src: url('./assets/Cardo-Regular.ttf') format('truetype');
