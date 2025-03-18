@@ -23,7 +23,7 @@ const getIngredientPositions = (deviceType: DeviceType) => {
     1: [{ top: '30%', left: '50%' }],
     2: [
       { top: '10%', left: '25%' },
-      { top: '50%', left: '60%' },
+      { top: '65%', left: '60%' },
     ],
     3: [
       { top: '35%', left: '20%' },
@@ -55,36 +55,36 @@ const getIngredientPositions = (deviceType: DeviceType) => {
 
   // Mobile positions - constrained closer to center
   const mobilePositions = {
-    1: [{ top: '30%', left: '50%' }],
+    1: [{ top: '30%', left: '30%' }],
     2: [
-      { top: '20%', left: '35%' },
+      { top: '10%', left: '15%' },
       { top: '50%', left: '55%' },
     ],
     3: [
-      { top: '30%', left: '25%' },
-      { top: '50%', left: '60%' },
-      { top: '10%', left: '45%' },
+      { top: '55%', left: '5%' },
+      { top: '70%', left: '55%' },
+      { top: '10%', left: '35%' },
     ],
     4: [
-      { top: '20%', left: '25%' },
-      { top: '20%', left: '55%' },
-      { top: '55%', left: '35%' },
-      { top: '55%', left: '65%' },
+      { top: '10%', left: '5%' },
+      { top: '15%', left: '55%' },
+      { top: '60%', left: '5%' },
+      { top: '70%', left: '55%' },
     ],
     5: [
-      { top: '15%', left: '50%' },
-      { top: '35%', left: '25%' },
-      { top: '35%', left: '75%' },
-      { top: '55%', left: '35%' },
-      { top: '55%', left: '65%' },
+      { top: '5%', left: '5%' },
+      { top: '10%', left: '55%' },
+      { top: '35%', left: '5%' },
+      { top: '60%', left: '55%' },
+      { top: '70%', left: '5%' },
     ],
     6: [
-      { top: '15%', left: '35%' },
-      { top: '15%', left: '65%' },
-      { top: '35%', left: '20%' },
+      { top: '5%', left: '5%' },
+      { top: '10%', left: '55%' },
+      { top: '35%', left: '5%' },
       { top: '35%', left: '55%' },
-      { top: '55%', left: '35%' },
-      { top: '55%', left: '65%' },
+      { top: '60%', left: '55%' },
+      { top: '70%', left: '5%' },
     ],
   };
 
