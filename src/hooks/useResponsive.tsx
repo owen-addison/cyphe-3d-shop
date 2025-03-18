@@ -36,16 +36,20 @@ export function useResponsive() {
       // Determine device type based on both size and touch capability
       let newDeviceType: DeviceType;
 
-      // Most mobile devices are touch-capable and smaller
       if (width < breakpoints.md) {
+        // Small screens are always mobile
         newDeviceType = 'mobile';
-      }
-      // Tablets are typically touch-capable and mid-sized
-      else if (width < breakpoints.lg) {
-        newDeviceType = 'tablet';
-      }
-      // Desktop devices are typically larger
-      else {
+      } else if (hasTouchCapability) {
+        // Medium to large screens with touch are tablets
+        // This captures iPad Pro and other large tablets
+        if (width <= breakpoints.xl) {
+          newDeviceType = 'tablet';
+        } else {
+          // Very large touch screens could be touch-enabled desktops
+          newDeviceType = 'desktop';
+        }
+      } else {
+        // No touch capability means desktop regardless of size
         newDeviceType = 'desktop';
       }
 
