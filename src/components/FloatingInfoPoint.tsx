@@ -20,7 +20,7 @@ const FloatingInfoPoint: React.FC<FloatingInfoPointProps> = ({
 
   const { isMobile } = useResponsive();
   // Use smaller size containers on mobile
-  const containerSize = isMobile ? 'h-32 w-40' : 'h-40 w-52';
+  const containerSize = isMobile ? 'h-35 w-35' : 'h-40 w-52';
 
   const { isTouchDevice } = useResponsive();
   // On touch devices, we might want to always show the ingredients or have a different interaction pattern
