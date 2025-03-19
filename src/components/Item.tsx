@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
-import FloatingInfoPoint from './FloatingInfoPoint';
+// import FloatingInfoPoint from './FloatingInfoPoint';
+import FloatingInfoPointPolar from './FloatingInfoPointPolar';
 import ItemCounter from './ItemCounter';
 import { useResponsive, DeviceType } from '../hooks/useResponsive';
 
@@ -208,7 +209,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
       >
         {/* Show floating info points on all device types */}
         {ingredients.map((ingredient, index) => (
-          <FloatingInfoPoint
+          <FloatingInfoPointPolar
             key={index}
             ingredient={ingredient}
             // On touch devices, isHovered should be forced to true to show ingredients
