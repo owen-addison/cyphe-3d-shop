@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
 import FloatingInfoPoint from './FloatingInfoPoint';
@@ -146,8 +146,9 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Always auto-rotate for touch devices
-  const [autoRotate, setAutoRotate] = useState(true);
+  // Use a memoised value instead of state since it's derived from props
+  // Will update whenever isTouchDevice changes
+  const autoRotate = useMemo(() => isTouchDevice, [isTouchDevice]);
 
   // Determine canvas size based on device type
   const getCanvasSize = () => {
@@ -164,15 +165,15 @@ const Item: React.FC<ItemProps> = ({ data }) => {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      // Convert mouse position to normalised coordinates (-1 to 1)
-      setMousePosition({
-        x: (event.clientX / window.innerWidth) * 2 - 1,
-        y: -(event.clientY / window.innerHeight) * 2 + 1,
-      });
+      // Only update mouse position if we're on desktop and the mouse is in the hover area
+      if (!isTouchDevice && isHovered) {
+        // Convert mouse position to normalized coordinates (-1 to 1)
+        setMousePosition({
+          x: (event.clientX / window.innerWidth) * 2 - 1,
+          y: -(event.clientY / window.innerHeight) * 2 + 1,
+        });
+      }
     };
-
-    // Set auto-rotate based on device type
-    setAutoRotate(isTouchDevice || !isHovered);
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -202,6 +203,8 @@ const Item: React.FC<ItemProps> = ({ data }) => {
           // Adjust height based on device for better proportions
           height: isMobile ? '70%' : isTablet ? '75%' : '80%',
         }}
+        onMouseEnter={() => handleHover(true)}
+        onMouseLeave={() => handleHover(false)}
       >
         {/* Show floating info points on all device types */}
         {ingredients.map((ingredient, index) => (
@@ -221,8 +224,6 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             width: canvasSize.width,
             height: canvasSize.height,
           }}
-          onMouseEnter={() => handleHover(true)}
-          onMouseLeave={() => handleHover(false)}
         >
           <Canvas camera={{ position: [1, 3, 5], fov: 45 }}>
             <ambientLight intensity={1.0} />
