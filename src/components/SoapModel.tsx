@@ -7,14 +7,9 @@ import { useResponsive } from '../hooks/useResponsive';
 interface SoapModelProps {
   mousePosition: { x: number; y: number };
   autoRotate: boolean;
-  touchRotation: { x: number; y: number };
 }
 
-const SoapModel: React.FC<SoapModelProps> = ({
-  mousePosition,
-  autoRotate,
-  touchRotation,
-}) => {
+const SoapModel: React.FC<SoapModelProps> = ({ mousePosition, autoRotate }) => {
   const modelRef = useRef<THREE.Group>(null);
   const { deviceType } = useResponsive();
   const autoRotateSpeed = 0.005;
@@ -39,22 +34,15 @@ const SoapModel: React.FC<SoapModelProps> = ({
         // Auto-rotate
         modelRef.current.rotation.y += autoRotateSpeed;
       } else {
+        // Mouse-based rotation when not auto-rotating
         const rotationSpeed = 0.1;
+        const targetRotationY = mousePosition.x * Math.PI * 0.5;
+        const targetRotationX = -mousePosition.y * Math.PI * 0.2;
 
-        // If we have touch rotation data, use it directly
-        if (touchRotation.x !== 0 || touchRotation.y !== 0) {
-          modelRef.current.rotation.x = touchRotation.x;
-          modelRef.current.rotation.y = touchRotation.y;
-        } else {
-          // Otherwise use mouse position for rotation
-          const targetRotationY = mousePosition.x * Math.PI * 0.5;
-          const targetRotationX = -mousePosition.y * Math.PI * 0.2;
-
-          modelRef.current.rotation.y +=
-            (targetRotationY - modelRef.current.rotation.y) * rotationSpeed;
-          modelRef.current.rotation.x +=
-            (targetRotationX - modelRef.current.rotation.x) * rotationSpeed;
-        }
+        modelRef.current.rotation.y +=
+          (targetRotationY - modelRef.current.rotation.y) * rotationSpeed;
+        modelRef.current.rotation.x +=
+          (targetRotationX - modelRef.current.rotation.x) * rotationSpeed;
       }
     }
   });
