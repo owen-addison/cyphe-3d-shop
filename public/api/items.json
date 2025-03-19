@@ -4,19 +4,50 @@
       "id": 1,
       "name": "soap #1",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["olive oil", "lemon zest", "bergamot"]
+      "ingredients": ["lavender"]
     },
     {
       "id": 2,
       "name": "soap #2",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["olive oil", "rose water", "pepper", "sea salt"]
+      "ingredients": ["olive oil", "sea salt"]
     },
     {
       "id": 3,
       "name": "soap #3",
       "imageSrc": "./src/assets/soap_front_crop.png",
-      "ingredients": ["olive oil", "sea salt"]
+      "ingredients": ["olive oil", "lemon zest", "bergamot"]
+    },
+    {
+      "id": 4,
+      "name": "soap #4",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": ["olive oil", "rose water", "pepper", "sea salt"]
+    },
+    {
+      "id": 5,
+      "name": "soap #5",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": [
+        "coconut oil",
+        "shea butter",
+        "jojoba oil",
+        "lavender",
+        "charcoal"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "soap #6",
+      "imageSrc": "./src/assets/soap_front_crop.png",
+      "ingredients": [
+        "olive oil",
+        "coconut oil",
+        "shea butter",
+        "honey",
+        "oatmeal",
+        "green tea"
+      ]
     }
   ]
 }
