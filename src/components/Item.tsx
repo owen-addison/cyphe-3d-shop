@@ -140,6 +140,23 @@ const getBubbleSize = (index: number) => {
   return bubbleSizes[index % bubbleSizes.length];
 };
 
+/**
+ * Calculate starting angles for each ingredient to create a natural offset
+ */
+const calculateInitialAngles = (count: number): number[] => {
+  const angles: number[] = [];
+  // Create a bit of randomness but ensure they're distributed
+  const angleStep = (Math.PI * 2) / count;
+
+  for (let i = 0; i < count; i++) {
+    // Add some random variation to the angle, but keep it within bounds
+    const variation = (Math.random() * 0.5 - 0.25) * angleStep;
+    angles.push((i * angleStep + variation) % (Math.PI * 2));
+  }
+
+  return angles;
+};
+
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const { isMobile, isTablet, isTouchDevice, deviceType } = useResponsive();
@@ -150,6 +167,19 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   // Use a memoised value instead of state since it's derived from props
   // Will update whenever isTouchDevice changes
   const autoRotate = useMemo(() => isTouchDevice, [isTouchDevice]);
+
+  // Generate initial angles for ingredient movement
+  const initialAngles = useMemo(
+    () => calculateInitialAngles(ingredients.length),
+    [ingredients.length],
+  );
+
+  // Get positions based on device type
+  const ingredientPositionsMap = getIngredientPositions(deviceType);
+  const positions =
+    ingredientPositionsMap[
+      ingredients.length as keyof typeof ingredientPositionsMap
+    ] || ingredientPositionsMap[6];
 
   // Determine canvas size based on device type
   const getCanvasSize = () => {
@@ -180,13 +210,6 @@ const Item: React.FC<ItemProps> = ({ data }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [isTouchDevice, isHovered]);
 
-  // Get positions based on device type
-  const ingredientPositionsMap = getIngredientPositions(deviceType);
-  const positions =
-    ingredientPositionsMap[
-      ingredients.length as keyof typeof ingredientPositionsMap
-    ] || ingredientPositionsMap[6];
-
   const handleHover = (hovering: boolean) => {
     setIsHovered(hovering);
   };
@@ -207,14 +230,14 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         onMouseEnter={() => handleHover(true)}
         onMouseLeave={() => handleHover(false)}
       >
-        {/* Show floating info points on all device types */}
+        {/* Show floating info points using the original position strategy */}
         {ingredients.map((ingredient, index) => (
           <FloatingInfoPointPolar
             key={index}
             ingredient={ingredient}
-            // On touch devices, isHovered should be forced to true to show ingredients
             isHovered={isTouchDevice || isHovered}
             position={positions[index] || positions[positions.length - 1]}
+            initialAngle={initialAngles[index]}
             bubbleSize={getBubbleSize(index)}
           />
         ))}
