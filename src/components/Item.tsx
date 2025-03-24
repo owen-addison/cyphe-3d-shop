@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import SoapModel from './SoapModel';
 import { Canvas } from '@react-three/fiber';
 // import FloatingInfoPoint from './FloatingInfoPoint';
-import FloatingInfoPointPolar from './FloatingInfoPointPolar';
+// import FloatingInfoPointPolar from './FloatingInfoPointPolar';
+import SimpleFloatingInfoPoint from './SimpleFloatingInfoPoint';
 import ItemCounter from './ItemCounter';
 import { useResponsive, DeviceType } from '../hooks/useResponsive';
 
@@ -232,7 +233,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
       >
         {/* Show floating info points using the original position strategy */}
         {ingredients.map((ingredient, index) => (
-          <FloatingInfoPointPolar
+          <SimpleFloatingInfoPoint
             key={index}
             ingredient={ingredient}
             isHovered={isTouchDevice || isHovered}
