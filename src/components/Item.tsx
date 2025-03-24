@@ -6,6 +6,7 @@ import { Canvas } from '@react-three/fiber';
 import SimpleFloatingInfoPoint from './SimpleFloatingInfoPoint';
 import ItemCounter from './ItemCounter';
 import { useResponsive, DeviceType } from '../hooks/useResponsive';
+import { distributeAngles } from '../utils/circularMotion';
 
 interface ItemData {
   id: number;
@@ -141,23 +142,6 @@ const getBubbleSize = (index: number) => {
   return bubbleSizes[index % bubbleSizes.length];
 };
 
-/**
- * Calculate starting angles for each ingredient to create a natural offset
- */
-const calculateInitialAngles = (count: number): number[] => {
-  const angles: number[] = [];
-  // Create a bit of randomness but ensure they're distributed
-  const angleStep = (Math.PI * 2) / count;
-
-  for (let i = 0; i < count; i++) {
-    // Add some random variation to the angle, but keep it within bounds
-    const variation = (Math.random() * 0.5 - 0.25) * angleStep;
-    angles.push((i * angleStep + variation) % (Math.PI * 2));
-  }
-
-  return angles;
-};
-
 const Item: React.FC<ItemProps> = ({ data }) => {
   const { id, name, ingredients } = data;
   const { isMobile, isTablet, isTouchDevice, deviceType } = useResponsive();
@@ -165,13 +149,12 @@ const Item: React.FC<ItemProps> = ({ data }) => {
   const [itemCount, setItemCount] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Use a memoised value instead of state since it's derived from props
-  // Will update whenever isTouchDevice changes
+  // Use a memoised value for autoRotate based on touch capability
   const autoRotate = useMemo(() => isTouchDevice, [isTouchDevice]);
 
-  // Generate initial angles for ingredient movement
+  // Use our enhanced distributeAngles function for better ingredient point distribution
   const initialAngles = useMemo(
-    () => calculateInitialAngles(ingredients.length),
+    () => distributeAngles(ingredients.length, 0.3), // 0.3 is randomness factor
     [ingredients.length],
   );
 

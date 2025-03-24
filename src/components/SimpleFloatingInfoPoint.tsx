@@ -12,7 +12,8 @@ interface SimpleFloatingInfoPointProps {
 }
 
 /**
- * A simplified version of FloatingInfoPoint focused on getting the animation working
+ * A floating info point component that orbits in a circular pattern
+ * and dynamically adapts to size changes when hover state changes
  */
 const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   ingredient,
@@ -30,7 +31,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     height: 0,
   });
 
-  // Estimate text width for calculations
+  // Calculate text width based on ingredient length (with padding)
   const estimatedTextWidth = ingredient.length * 12 + 40;
 
   // On touch devices, we always show the ingredients
@@ -55,13 +56,17 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         }
       };
 
+      // Initial measurement
       updateDimensions();
+
+      // Re-measure on resize
       window.addEventListener('resize', updateDimensions);
+
       return () => window.removeEventListener('resize', updateDimensions);
     }
   }, []);
 
-  // Setup circular animation
+  // Setup circular animation with dynamic size adaptation
   useEffect(() => {
     // Only start animation if we have valid container dimensions
     if (containerDimensions.width <= 0 || containerDimensions.height <= 0) {
@@ -69,6 +74,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     }
 
     // Function to get current point size based on visible state
+    // This will be called on each animation frame to get the current size
     const getPointSize = () => {
       // When expanded (showing ingredient text), we need more space
       if (isVisible) {
@@ -86,7 +92,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       }
     };
 
-    // Start the animation and get cleanup function
+    // Start the animation with our enhanced circular motion utility
     const cleanup = animateCircularMotion(
       // Update callback - apply new position to motion control
       (position) => {
@@ -123,8 +129,6 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       style={{
         top: position.top,
         left: position.left,
-        // Debug styling - uncomment to see container boundaries
-        // border: '1px dashed red',
       }}
     >
       <motion.div
