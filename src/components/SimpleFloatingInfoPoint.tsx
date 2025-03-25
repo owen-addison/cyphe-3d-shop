@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { animateCircularMotion } from '../utils/circularMotion';
+import { animateCircularMotion, PointSize } from '../utils/circularMotion';
 import { useResponsive } from '../hooks/useResponsive';
 
 interface SimpleFloatingInfoPointProps {
@@ -80,24 +80,25 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       return;
     }
 
+    // Debugging line for inspecting container dimensions
+    // console.log('Container dimensions for', ingredient, containerDimensions);
+
     // Function to get current point size based on visible state
     // This will use the current value from the refs, not triggering re-renders
-    const getPointSize = () => {
-      // Check current isVisible state from refs
+    const getPointSize = (): PointSize => {
       const currentIsVisible = isTouchDeviceRef.current || isHoveredRef.current;
 
-      // When expanded (showing ingredient text), we need more space
       if (currentIsVisible) {
         return {
           width: estimatedTextWidth,
-          height: 20, // Height of the bubble + text
+          height: 20,
+          offsetX: estimatedTextWidth / 2,
         };
-      }
-      // When collapsed (just bubble), we use bubble size
-      else {
+      } else {
         return {
-          width: 10, // Bubble width
-          height: 10, // Bubble height
+          width: 10,
+          height: 10,
+          offsetX: 0,
         };
       }
     };

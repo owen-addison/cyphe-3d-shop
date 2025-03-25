@@ -1,3 +1,9 @@
+export interface PointSize {
+  width: number;
+  height: number;
+  offsetX?: number; // Make it optional with ?
+}
+
 /**
  * Calculates the x,y coordinates of a point moving in a circular/elliptical path
  *
@@ -16,6 +22,7 @@ export function calculateCircularPosition(
   radiusPercent: number = 100,
   pointSizeX: number = 10,
   pointSizeY: number = 10,
+  offsetX: number = 0,
 ): { x: number; y: number } {
   // Calculate the center of the container
   const centerX = containerWidth / 2;
@@ -24,7 +31,7 @@ export function calculateCircularPosition(
   // Calculate maximum possible radius in each direction (accounting for point size)
   const margin = 5; // Additional safety margin
 
-  const maxRadiusX = Math.max(0, containerWidth / 2 - pointSizeX / 2 - margin);
+  const maxRadiusX = Math.max(0, containerWidth / 2 - offsetX - margin);
   const maxRadiusY = Math.max(0, containerHeight / 2 - pointSizeY / 2 - margin);
 
   // Apply radius percentage (allows for oscillation)
@@ -91,7 +98,7 @@ export function animateCircularMotion(
   onUpdate: (position: { x: number; y: number }) => void,
   containerWidth: number,
   containerHeight: number,
-  getPointSize: () => { width: number; height: number },
+  getPointSize: () => PointSize,
   speed: number = 0.5,
   minRadius: number = 60,
   maxRadius: number = 90,
@@ -104,8 +111,17 @@ export function animateCircularMotion(
   let animationFrameId: number;
   let isAnimating = true;
 
+  // console.log('Starting animation with container size:', {
+  //   containerWidth,
+  //   containerHeight,
+  // });
+
   // Store the last point size to detect changes
   let lastPointSize = getPointSize();
+
+  // console.log('lastPointSize sizes:', {
+  //   lastPointSize,
+  // });
 
   // Keep track of transition state
   let isTransitioning = false;
@@ -168,6 +184,7 @@ export function animateCircularMotion(
         radius,
         currentPointSize.width,
         currentPointSize.height,
+        currentPointSize.offsetX || 0,
       );
 
       // Calculate position with transition easing
@@ -199,6 +216,7 @@ export function animateCircularMotion(
         radius,
         currentPointSize.width,
         currentPointSize.height,
+        currentPointSize.offsetX,
       );
 
       // Store last position for potential transitions
