@@ -2,6 +2,7 @@ export interface PointSize {
   width: number;
   height: number;
   offsetX?: number; // Make it optional with ?
+  isExpanded: boolean;
 }
 
 /**
@@ -29,12 +30,11 @@ export function calculateCircularPosition(
   const centerY = containerHeight / 2;
 
   // Calculate maximum possible radius in each direction
-  const margin = 5; // Safety margin
+  const margin = 10; // Safety margin
 
-  // Calculate maximum radius values taking into account the point's dimensions
-  // For X, use the offsetX (default is half width if not specified)
+  // Use the full width for horizontal constraint calculation
   const maxRadiusX = Math.max(0, containerWidth / 2 - offsetX - margin);
-  // For Y, use half height for vertical centering
+  // Use the full height for vertical constraint calculation
   const maxRadiusY = Math.max(0, containerHeight / 2 - height / 2 - margin);
 
   // Apply radius percentage (allows for oscillation)
@@ -114,23 +114,6 @@ export function animateCircularMotion(
   let animationFrameId: number;
   let isAnimating = true;
 
-  // console.log('Starting animation with container size:', {
-  //   containerWidth,
-  //   containerHeight,
-  // });
-
-  // Store the last point size to detect changes
-  let lastPointSize = getPointSize();
-
-  // console.log('lastPointSize sizes:', {
-  //   lastPointSize,
-  // });
-
-  // Keep track of transition state
-  let isTransitioning = false;
-  let transitionProgress = 0;
-  const transitionDuration = 30; // Number of frames for transition
-
   // Store the last position to transition from
   let lastPosition = {
     x: containerWidth / 2,
@@ -143,7 +126,7 @@ export function animateCircularMotion(
     const currentTime = performance.now() / 1000;
     const deltaTime = currentTime - lastTime;
 
-    // Update our tracking variables
+    // Update tracking variables
     lastTime = currentTime;
     elapsedTime += deltaTime;
 
@@ -161,76 +144,25 @@ export function animateCircularMotion(
       radiusOscillationPeriod,
     );
 
-    // Get current point size - this allows for dynamic changes
+    // Get current point size - still using the func but dimensions are now consistent
     const currentPointSize = getPointSize();
 
-    // Check if the size has changed
-    const hasSizeChanged =
-      currentPointSize.width !== lastPointSize.width ||
-      currentPointSize.height !== lastPointSize.height;
+    // Calculate position using consistent boundaries
+    const position = calculateCircularPosition(
+      containerWidth,
+      containerHeight,
+      angle,
+      radius,
+      currentPointSize.width,
+      currentPointSize.height,
+      currentPointSize.offsetX,
+    );
 
-    // Start transition if size has changed
-    if (hasSizeChanged && !isTransitioning) {
-      isTransitioning = true;
-      transitionProgress = 0;
-    }
+    // Store last position
+    lastPosition = position;
 
-    // Handle transition
-    if (isTransitioning) {
-      transitionProgress++;
-
-      // Calculate new position with new dimensions
-      const newPosition = calculateCircularPosition(
-        containerWidth,
-        containerHeight,
-        angle,
-        radius,
-        currentPointSize.width,
-        currentPointSize.height,
-        currentPointSize.offsetX,
-      );
-
-      // Calculate position with transition easing
-      const transitionFactor = easeTransition(
-        transitionProgress,
-        transitionDuration,
-      );
-
-      // Interpolate between last position and new position
-      const interpolatedPosition = {
-        x: lastPosition.x + (newPosition.x - lastPosition.x) * transitionFactor,
-        y: lastPosition.y + (newPosition.y - lastPosition.y) * transitionFactor,
-      };
-
-      // Update position
-      onUpdate(interpolatedPosition);
-
-      // End transition when complete
-      if (transitionProgress >= transitionDuration) {
-        isTransitioning = false;
-        lastPosition = newPosition;
-      }
-    } else {
-      // Normal animation when not transitioning
-      const position = calculateCircularPosition(
-        containerWidth,
-        containerHeight,
-        angle,
-        radius,
-        currentPointSize.width,
-        currentPointSize.height,
-        currentPointSize.offsetX,
-      );
-
-      // Store last position for potential transitions
-      lastPosition = position;
-
-      // Call the update callback with the new position
-      onUpdate(position);
-    }
-
-    // Update last point size for next frame
-    lastPointSize = currentPointSize;
+    // Call the update callback with the new position
+    onUpdate(position);
 
     // Continue animation loop
     animationFrameId = requestAnimationFrame(animate);

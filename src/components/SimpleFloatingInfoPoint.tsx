@@ -86,21 +86,23 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     // Function to get current point size based on visible state
     // This will use the current value from the refs, not triggering re-renders
     const getPointSize = (): PointSize => {
+      // Always use the maximum size for position calculations
+      // This ensures movement boundaries are consistent
+      const maxWidth = estimatedTextWidth + 20; // Add extra margin for the bubble
+      const maxHeight = 24; // Slightly larger than text height
+
+      // Current visible state still affects rendering, not movement boundaries
       const currentIsVisible = isTouchDeviceRef.current || isHoveredRef.current;
 
-      if (currentIsVisible) {
-        return {
-          width: estimatedTextWidth,
-          height: 20,
-          offsetX: estimatedTextWidth / 2,
-        };
-      } else {
-        return {
-          width: 10,
-          height: 10,
-          offsetX: 0,
-        };
-      }
+      return {
+        // Always return the maximum dimensions for movement calculation
+        width: maxWidth,
+        height: maxHeight,
+        // Use the full width as offset to ensure proper horizontal positioning
+        offsetX: maxWidth / 2,
+        // Add a flag to indicate current visual state (doesn't affect movement calculation)
+        isExpanded: currentIsVisible,
+      };
     };
 
     // Start the animation with our enhanced circular motion utility
@@ -139,16 +141,17 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`float-container pointer-events-none absolute z-30 ${containerSize} border border-dashed border-red-800`}
+      className={`float-container pointer-events-none absolute z-30 ${containerSize}`}
       style={{
         top: position.top,
         left: position.left,
+        // Remove the border used for debugging
+        // border: '1px dashed rgba(0,0,0,0.1)' // Use this for debugging only
       }}
     >
       <motion.div
         className="info-point-container absolute flex items-center"
         animate={controls}
-        // No initial prop - we'll set position via animation function
       >
         <div
           className={`bubble-container mr-2 transition-all duration-700 ${isVisible ? 'h-2 w-2' : bubbleSize}`}
@@ -156,7 +159,9 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
-          className={`ingredient-container max-w-[180px] overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-700 ${isVisible ? 'max-w-[180px] opacity-100' : 'max-w-0 opacity-0'}`}
+          className={`ingredient-container overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-500 ${
+            isVisible ? 'max-w-[180px] opacity-100' : 'max-w-0 opacity-0'
+          }`}
         >
           {ingredient.toLowerCase()}
         </div>
