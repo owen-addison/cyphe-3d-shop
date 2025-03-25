@@ -69,21 +69,6 @@ export function oscillate(
 }
 
 /**
- * Calculates what proportion of a transition between sizes has completed
- *
- * @param current - Current transition frame
- * @param total - Total transition frames
- * @returns A value between 0 (start) and 1 (end) with easing
- */
-function easeTransition(current: number, total: number): number {
-  // Ensure we stay within 0-1 range
-  const t = Math.min(1, Math.max(0, current / total));
-
-  // Cubic easing function: smoother acceleration and deceleration
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-
-/**
  * Animation helper that updates position over time with adaptive sizing
  *
  * @param onUpdate - Callback function to handle position updates
@@ -113,12 +98,6 @@ export function animateCircularMotion(
   let elapsedTime = 0;
   let animationFrameId: number;
   let isAnimating = true;
-
-  // Store the last position to transition from
-  let lastPosition = {
-    x: containerWidth / 2,
-    y: containerHeight / 2,
-  };
 
   const animate = () => {
     if (!isAnimating) return;
@@ -157,9 +136,6 @@ export function animateCircularMotion(
       currentPointSize.height,
       currentPointSize.offsetX,
     );
-
-    // Store last position
-    lastPosition = position;
 
     // Call the update callback with the new position
     onUpdate(position);
