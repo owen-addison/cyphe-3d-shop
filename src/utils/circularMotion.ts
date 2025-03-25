@@ -1,8 +1,8 @@
 export interface PointSize {
   width: number;
   height: number;
-  offsetX?: number; // Make it optional with ?
-  isExpanded: boolean;
+  offsetX?: number;
+  maxWidth?: number;
 }
 
 /**
@@ -23,29 +23,30 @@ export function calculateCircularPosition(
   radiusPercent: number = 100,
   width: number = 10,
   height: number = 10,
-  offsetX: number = width / 2, // Default to center if not specified
+  maxWidth?: number, // Add this parameter
 ): { x: number; y: number } {
-  // Calculate the center of the container
+  // Use maxWidth for calculations if provided
+  const effectiveWidth = maxWidth !== undefined ? maxWidth : width;
+
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
 
-  // Calculate maximum possible radius in each direction
-  const margin = 10; // Safety margin
-
-  // Use the full width for horizontal constraint calculation
-  const maxRadiusX = Math.max(0, containerWidth / 2 - offsetX - margin);
-  // Use the full height for vertical constraint calculation
+  // Use effectiveWidth for radius calculations
+  const margin = 10;
+  const maxRadiusX = Math.max(
+    0,
+    containerWidth / 2 - effectiveWidth / 2 - margin,
+  );
   const maxRadiusY = Math.max(0, containerHeight / 2 - height / 2 - margin);
 
-  // Apply radius percentage (allows for oscillation)
   const effectiveRadiusX = maxRadiusX * (radiusPercent / 100);
   const effectiveRadiusY = maxRadiusY * (radiusPercent / 100);
 
-  // Calculate position using parametric equation of ellipse
-  const x = centerX + effectiveRadiusX * Math.cos(angle);
-  const y = centerY + effectiveRadiusY * Math.sin(angle);
-
-  return { x, y };
+  // Account for element width in positioning
+  return {
+    x: centerX + effectiveRadiusX * Math.cos(angle) - width / 2,
+    y: centerY + effectiveRadiusY * Math.sin(angle) - height / 2,
+  };
 }
 
 /**
@@ -116,14 +117,16 @@ export function animateCircularMotion(
     }
 
     // Calculate oscillating radius
-    const radius = oscillate(
-      minRadius,
-      maxRadius,
-      elapsedTime,
-      radiusOscillationPeriod,
-    );
+    // const radius = oscillate(
+    //   minRadius,
+    //   maxRadius,
+    //   elapsedTime,
+    //   radiusOscillationPeriod,
+    // );
 
-    // Get current point size - still using the func but dimensions are now consistent
+    const radius = 60;
+
+    // Get current point size
     const currentPointSize = getPointSize();
 
     // Calculate position using consistent boundaries
@@ -134,7 +137,7 @@ export function animateCircularMotion(
       radius,
       currentPointSize.width,
       currentPointSize.height,
-      currentPointSize.offsetX,
+      currentPointSize.maxWidth, // Pass the maxWidth parameter
     );
 
     // Call the update callback with the new position

@@ -30,6 +30,14 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     width: 0,
     height: 0,
   });
+  const infoPointRef = useRef<HTMLDivElement>(null);
+  const bubbleRef = useRef<HTMLDivElement>(null);
+  const ingredientRef = useRef<HTMLDivElement>(null);
+  const [elementSizes, setElementSizes] = useState({
+    bubbleWidth: 0,
+    expandedWidth: 0,
+    height: 0,
+  });
 
   // Use refs to track hover state without triggering effect reruns
   const isHoveredRef = useRef(isHovered);
@@ -73,6 +81,36 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const measureElements = () => {
+      if (bubbleRef.current && ingredientRef.current) {
+        // Safely extract the size number from the bubbleSize class
+        // First define a local variable with proper typing
+        const bubbleSizeValue =
+          typeof bubbleSize === 'string'
+            ? parseInt(bubbleSize.split(' ')[1]?.replace('w-', '') || '4')
+            : 4;
+
+        // Use the properly typed local variable
+        const calculatedBubbleSize = bubbleSizeValue * 4;
+
+        // Get ingredient text width
+        const ingredientRect = ingredientRef.current.getBoundingClientRect();
+
+        setElementSizes({
+          bubbleWidth: calculatedBubbleSize,
+          expandedWidth: calculatedBubbleSize + ingredientRect.width + 8,
+          height: 24,
+        });
+      }
+    };
+
+    // Only run if refs are available
+    if (bubbleRef.current && ingredientRef.current) {
+      setTimeout(measureElements, 100);
+    }
+  }, [bubbleSize]);
+
   // Setup circular animation once and use refs to track state changes
   useEffect(() => {
     // Only start animation if we have valid container dimensions
@@ -80,47 +118,43 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       return;
     }
 
-    // Debugging line for inspecting container dimensions
-    // console.log('Container dimensions for', ingredient, containerDimensions);
-
     // Function to get current point size based on visible state
-    // This will use the current value from the refs, not triggering re-renders
     const getPointSize = (): PointSize => {
-      // Always use the maximum size for position calculations
-      // This ensures movement boundaries are consistent
-      const maxWidth = estimatedTextWidth + 20; // Add extra margin for the bubble
-      const maxHeight = 24; // Slightly larger than text height
-
-      // Current visible state still affects rendering, not movement boundaries
       const currentIsVisible = isTouchDeviceRef.current || isHoveredRef.current;
 
       return {
-        // Always return the maximum dimensions for movement calculation
-        width: maxWidth,
-        height: maxHeight,
-        // Use the full width as offset to ensure proper horizontal positioning
-        offsetX: maxWidth / 2,
-        // Add a flag to indicate current visual state (doesn't affect movement calculation)
-        isExpanded: currentIsVisible,
+        // Current visual width (what's currently displayed)
+        width: currentIsVisible
+          ? elementSizes.bubbleWidth
+          : elementSizes.bubbleWidth,
+        height: elementSizes.height,
+        // Maximum width for movement calculations
+        maxWidth: elementSizes.expandedWidth,
       };
     };
 
     // Start the animation with our enhanced circular motion utility
     const cleanup = animateCircularMotion(
-      // Update callback - apply new position to motion control
+      // Update callback - apply new position to motion control WITH ADJUSTMENT
       (position) => {
+        // Calculate adjustment based on current state
+        const currentPointSize = getPointSize();
+        // This is the key change - we center the element horizontally
+        // by subtracting half its width
+        const adjustedX = position.x - currentPointSize.width / 2;
+
         controls.set({
-          x: position.x,
+          x: adjustedX,
           y: position.y,
         });
       },
       containerDimensions.width,
       containerDimensions.height,
       getPointSize,
-      0.3, // Speed (radians per second)
-      60, // Min radius percentage
-      80, // Max radius percentage
-      12, // Radius oscillation period
+      0.3,
+      60,
+      80,
+      12,
       initialAngle,
     );
 
@@ -132,7 +166,6 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     controls,
     estimatedTextWidth,
     initialAngle,
-    // No dependency on isHovered or isTouchDevice
   ]);
 
   // Only calculate visibility for rendering, not for animation
@@ -146,19 +179,22 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         top: position.top,
         left: position.left,
         // Remove the border used for debugging
-        // border: '1px dashed rgba(0,0,0,0.1)' // Use this for debugging only
+        border: '1px dashed rgba(0,0,0,0.9)', // Use this for debugging only
       }}
     >
       <motion.div
+        ref={infoPointRef}
         className="info-point-container absolute flex items-center"
         animate={controls}
       >
         <div
+          ref={bubbleRef}
           className={`bubble-container mr-2 transition-all duration-700 ${isVisible ? 'h-2 w-2' : bubbleSize}`}
         >
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
         <div
+          ref={ingredientRef}
           className={`ingredient-container overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-500 ${
             isVisible ? 'max-w-[180px] opacity-100' : 'max-w-0 opacity-0'
           }`}
