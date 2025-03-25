@@ -35,7 +35,7 @@ export function calculateCircularPosition(
 
   // Calculate maximum radius with extra margin on the right side
   const marginLeft = 15;
-  const marginRight = 25; // Increased right margin to prevent drifting
+  const marginRight = 105; // Increased right margin to prevent drifting
 
   // Adjust maxRadiusX to be more conservative
   const maxRadiusX = Math.max(
