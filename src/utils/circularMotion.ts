@@ -1,85 +1,76 @@
 export interface PointSize {
   width: number;
   height: number;
-  offsetX?: number;
   maxWidth?: number;
 }
 
 /**
  * Calculates the x,y coordinates of a point moving in a circular/elliptical path
+ * Always calculates based on maxWidth for consistency across states
  *
- * @param containerWidth - Width of the container (w)
- * @param containerHeight - Height of the container (h)
- * @param angle - Current angle in radians (α)
+ * @param containerWidth - Width of the container
+ * @param containerHeight - Height of the container
+ * @param angle - Current angle in radians
  * @param radiusPercent - Percentage of maximum radius to use (0-100)
- * @param pointSizeX - Width of the point or element
- * @param pointSizeY - Height of the point or element
- * @returns Coordinates {x, y} relative to the center of the container
+ * @param pointWidth - Visual width of the point or element
+ * @param pointHeight - Height of the point or element
+ * @param maxWidth - Maximum width of the element when expanded
+ * @returns Coordinates {x, y} relative to container with proper centering
  */
 export function calculateCircularPosition(
   containerWidth: number,
   containerHeight: number,
   angle: number,
   radiusPercent: number = 100,
-  width: number = 10,
-  height: number = 10,
-  maxWidth?: number, // Add this parameter
+  pointWidth: number = 10,
+  pointHeight: number = 10,
+  maxWidth?: number,
 ): { x: number; y: number } {
-  // Use maxWidth for calculations if provided
-  const effectiveWidth = maxWidth !== undefined ? maxWidth : width;
+  // Always use maxWidth for boundary calculations if provided
+  const effectiveWidth = maxWidth !== undefined ? maxWidth : pointWidth;
 
+  // Center of the container
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
 
-  // Use effectiveWidth for radius calculations
-  const margin = 10;
+  // Calculate maximum radius with extra margin on the right side
+  const marginLeft = 15;
+  const marginRight = 25; // Increased right margin to prevent drifting
+
+  // Adjust maxRadiusX to be more conservative
   const maxRadiusX = Math.max(
     0,
-    containerWidth / 2 - effectiveWidth / 2 - margin,
+    containerWidth / 2 - effectiveWidth / 2 - marginRight,
   );
-  const maxRadiusY = Math.max(0, containerHeight / 2 - height / 2 - margin);
+  const maxRadiusY = Math.max(
+    0,
+    containerHeight / 2 - pointHeight / 2 - marginLeft,
+  );
 
+  // Apply radius percentage
   const effectiveRadiusX = maxRadiusX * (radiusPercent / 100);
   const effectiveRadiusY = maxRadiusY * (radiusPercent / 100);
 
-  // Account for element width in positioning
+  // Calculate raw position without element size adjustment
+  const rawX = centerX + effectiveRadiusX * Math.cos(angle);
+  const rawY = centerY + effectiveRadiusY * Math.sin(angle);
+
+  // Center the element at that position, accounting for its visual width
   return {
-    x: centerX + effectiveRadiusX * Math.cos(angle) - width / 2,
-    y: centerY + effectiveRadiusY * Math.sin(angle) - height / 2,
+    x: rawX - pointWidth / 2,
+    y: rawY - pointHeight / 2,
   };
 }
 
 /**
- * Oscillates a value between min and max with a sine wave
- *
- * @param min - Minimum value
- * @param max - Maximum value
- * @param time - Current time parameter (increases continuously)
- * @param period - Period of oscillation
- * @returns A value oscillating between min and max
- */
-export function oscillate(
-  min: number,
-  max: number,
-  time: number,
-  period: number = 5,
-): number {
-  const amplitude = (max - min) / 2;
-  const offset = min + amplitude;
-  return offset + amplitude * Math.sin((time * 2 * Math.PI) / period);
-}
-
-/**
- * Animation helper that updates position over time with adaptive sizing
+ * Animation helper that uses consistent boundaries for motion
  *
  * @param onUpdate - Callback function to handle position updates
  * @param containerWidth - Width of the container
  * @param containerHeight - Height of the container
- * @param getPointSize - Function that returns current point size (allows dynamic changes)
+ * @param getPointSize - Function that returns current point size
  * @param speed - Speed of angular movement (radians per second)
- * @param minRadius - Minimum radius percentage (0-100)
- * @param maxRadius - Maximum radius percentage (0-100)
- * @param radiusOscillationPeriod - How long it takes to complete a radius oscillation cycle
+ * @param radius - Fixed radius percentage to use
  * @param initialAngle - Optional starting angle (random if not provided)
  * @returns A cleanup function to cancel the animation
  */
@@ -89,14 +80,13 @@ export function animateCircularMotion(
   containerHeight: number,
   getPointSize: () => PointSize,
   speed: number = 0.5,
-  minRadius: number = 60,
-  maxRadius: number = 90,
-  radiusOscillationPeriod: number = 8,
+  radius: number = 80,
+  _unused1: number = 0, // Kept for backward compatibility
+  _unused2: number = 0, // Kept for backward compatibility
   initialAngle?: number,
 ): () => void {
   let angle = initialAngle ?? Math.random() * Math.PI * 2;
   let lastTime = performance.now() / 1000;
-  let elapsedTime = 0;
   let animationFrameId: number;
   let isAnimating = true;
 
@@ -105,10 +95,7 @@ export function animateCircularMotion(
 
     const currentTime = performance.now() / 1000;
     const deltaTime = currentTime - lastTime;
-
-    // Update tracking variables
     lastTime = currentTime;
-    elapsedTime += deltaTime;
 
     // Update angle based on speed and elapsed time
     angle += speed * deltaTime;
@@ -116,28 +103,18 @@ export function animateCircularMotion(
       angle -= Math.PI * 2; // Keep angle between 0 and 2π
     }
 
-    // Calculate oscillating radius
-    // const radius = oscillate(
-    //   minRadius,
-    //   maxRadius,
-    //   elapsedTime,
-    //   radiusOscillationPeriod,
-    // );
-
-    const radius = 60;
-
-    // Get current point size
+    // Get current point size with both visual width and max width
     const currentPointSize = getPointSize();
 
-    // Calculate position using consistent boundaries
+    // Calculate position - always use maxWidth for path calculation
     const position = calculateCircularPosition(
       containerWidth,
       containerHeight,
       angle,
       radius,
-      currentPointSize.width,
+      currentPointSize.width, // Current visual width
       currentPointSize.height,
-      currentPointSize.maxWidth, // Pass the maxWidth parameter
+      currentPointSize.maxWidth, // Maximum width for boundary calculations
     );
 
     // Call the update callback with the new position

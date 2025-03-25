@@ -49,9 +49,6 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     isTouchDeviceRef.current = isTouchDevice;
   }, [isHovered, isTouchDevice]);
 
-  // Calculate text width based on ingredient length (with padding)
-  const estimatedTextWidth = ingredient.length * 12 + 40;
-
   // Determine container size based on device
   const containerSize = isMobile
     ? 'h-32 w-36'
@@ -81,94 +78,97 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     }
   }, []);
 
+  // Measure element sizes
   useEffect(() => {
     const measureElements = () => {
       if (bubbleRef.current && ingredientRef.current) {
-        // Safely extract the size number from the bubbleSize class
-        // First define a local variable with proper typing
+        // Parse the bubble size number from class (e.g., "h-4 w-4" -> 4)
         const bubbleSizeValue =
           typeof bubbleSize === 'string'
             ? parseInt(bubbleSize.split(' ')[1]?.replace('w-', '') || '4')
             : 4;
 
-        // Use the properly typed local variable
-        const calculatedBubbleSize = bubbleSizeValue * 4;
+        // Convert to pixels (approximately)
+        const calculatedBubbleSize = bubbleSizeValue * 4; // 1rem ≈ 16px, 0.25rem = 4px
 
-        // Get ingredient text width
+        // Measure ingredient text width
         const ingredientRect = ingredientRef.current.getBoundingClientRect();
+
+        // Calculate total width when expanded (bubble + spacing + text)
+        const totalExpandedWidth =
+          calculatedBubbleSize + ingredientRect.width + 16;
 
         setElementSizes({
           bubbleWidth: calculatedBubbleSize,
-          expandedWidth: calculatedBubbleSize + ingredientRect.width + 8,
-          height: 24,
+          expandedWidth: totalExpandedWidth,
+          height: 24, // Approximated height
         });
       }
     };
 
-    // Only run if refs are available
-    if (bubbleRef.current && ingredientRef.current) {
-      setTimeout(measureElements, 100);
-    }
+    // Wait for a moment to ensure DOM is ready
+    setTimeout(measureElements, 100);
   }, [bubbleSize]);
 
-  // Setup circular animation once and use refs to track state changes
+  // Setup circular animation
   useEffect(() => {
-    // Only start animation if we have valid container dimensions
-    if (containerDimensions.width <= 0 || containerDimensions.height <= 0) {
+    // Only start animation if we have valid dimensions
+    if (
+      containerDimensions.width <= 0 ||
+      containerDimensions.height <= 0 ||
+      elementSizes.expandedWidth <= 0
+    ) {
       return;
     }
 
-    // Function to get current point size based on visible state
+    // Function to provide current dimensions
     const getPointSize = (): PointSize => {
-      const currentIsVisible = isTouchDeviceRef.current || isHoveredRef.current;
+      const isVisible = isTouchDeviceRef.current || isHoveredRef.current;
+
+      // Add extra safety buffer
+      const safeExpandedWidth = elementSizes.expandedWidth + 10;
 
       return {
-        // Current visual width (what's currently displayed)
-        width: currentIsVisible
-          ? elementSizes.bubbleWidth
+        // Current visual width
+        width: isVisible
+          ? elementSizes.expandedWidth
           : elementSizes.bubbleWidth,
         height: elementSizes.height,
-        // Maximum width for movement calculations
-        maxWidth: elementSizes.expandedWidth,
+        // Always use maxWidth for consistent boundary calculation
+        maxWidth: safeExpandedWidth,
       };
     };
 
-    // Start the animation with our enhanced circular motion utility
+    // Start the animation
     const cleanup = animateCircularMotion(
-      // Update callback - apply new position to motion control WITH ADJUSTMENT
+      // Update callback applies calculated position
       (position) => {
-        // Calculate adjustment based on current state
-        const currentPointSize = getPointSize();
-        // This is the key change - we center the element horizontally
-        // by subtracting half its width
-        const adjustedX = position.x - currentPointSize.width / 2;
-
         controls.set({
-          x: adjustedX,
+          x: position.x,
           y: position.y,
         });
       },
       containerDimensions.width,
       containerDimensions.height,
       getPointSize,
-      0.3,
-      60,
-      80,
-      12,
+      0.15, // Slower speed for smoother movement
+      75, // Fixed radius percentage
+      0, // Unused parameter - kept for compatibility
+      0, // Unused parameter - kept for compatibility
       initialAngle,
     );
 
-    // Clean up on unmount or when container dimensions change
     return cleanup;
   }, [
     containerDimensions.width,
     containerDimensions.height,
+    elementSizes.expandedWidth,
+    elementSizes.bubbleWidth,
     controls,
-    estimatedTextWidth,
     initialAngle,
   ]);
 
-  // Only calculate visibility for rendering, not for animation
+  // Determine visibility state for rendering
   const isVisible = isTouchDevice || isHovered;
 
   return (
@@ -178,8 +178,8 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       style={{
         top: position.top,
         left: position.left,
-        // Remove the border used for debugging
-        border: '1px dashed rgba(0,0,0,0.9)', // Use this for debugging only
+        // Subtle border for debugging - can be removed in production
+        border: '1px dashed rgba(0,0,0,0.05)',
       }}
     >
       <motion.div
@@ -189,7 +189,9 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       >
         <div
           ref={bubbleRef}
-          className={`bubble-container mr-2 transition-all duration-700 ${isVisible ? 'h-2 w-2' : bubbleSize}`}
+          className={`bubble-container mr-2 transition-all duration-700 ${
+            isVisible ? 'h-2 w-2' : bubbleSize
+          }`}
         >
           <span className="bubble block h-full w-full rounded-full border border-moss-800"></span>
         </div>
