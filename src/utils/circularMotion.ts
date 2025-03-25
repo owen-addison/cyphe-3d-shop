@@ -20,19 +20,22 @@ export function calculateCircularPosition(
   containerHeight: number,
   angle: number,
   radiusPercent: number = 100,
-  pointSizeX: number = 10,
-  pointSizeY: number = 10,
-  offsetX: number = 0,
+  width: number = 10,
+  height: number = 10,
+  offsetX: number = width / 2, // Default to center if not specified
 ): { x: number; y: number } {
   // Calculate the center of the container
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
 
-  // Calculate maximum possible radius in each direction (accounting for point size)
-  const margin = 5; // Additional safety margin
+  // Calculate maximum possible radius in each direction
+  const margin = 5; // Safety margin
 
+  // Calculate maximum radius values taking into account the point's dimensions
+  // For X, use the offsetX (default is half width if not specified)
   const maxRadiusX = Math.max(0, containerWidth / 2 - offsetX - margin);
-  const maxRadiusY = Math.max(0, containerHeight / 2 - pointSizeY / 2 - margin);
+  // For Y, use half height for vertical centering
+  const maxRadiusY = Math.max(0, containerHeight / 2 - height / 2 - margin);
 
   // Apply radius percentage (allows for oscillation)
   const effectiveRadiusX = maxRadiusX * (radiusPercent / 100);
@@ -184,7 +187,7 @@ export function animateCircularMotion(
         radius,
         currentPointSize.width,
         currentPointSize.height,
-        currentPointSize.offsetX || 0,
+        currentPointSize.offsetX,
       );
 
       // Calculate position with transition easing
