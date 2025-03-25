@@ -31,11 +31,18 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     height: 0,
   });
 
+  // Use refs to track hover state without triggering effect reruns
+  const isHoveredRef = useRef(isHovered);
+  const isTouchDeviceRef = useRef(isTouchDevice);
+
+  // Update refs when props change
+  useEffect(() => {
+    isHoveredRef.current = isHovered;
+    isTouchDeviceRef.current = isTouchDevice;
+  }, [isHovered, isTouchDevice]);
+
   // Calculate text width based on ingredient length (with padding)
   const estimatedTextWidth = ingredient.length * 12 + 40;
-
-  // On touch devices, we always show the ingredients
-  const isVisible = isTouchDevice || isHovered;
 
   // Determine container size based on device
   const containerSize = isMobile
@@ -66,7 +73,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     }
   }, []);
 
-  // Setup circular animation with dynamic size adaptation
+  // Setup circular animation once and use refs to track state changes
   useEffect(() => {
     // Only start animation if we have valid container dimensions
     if (containerDimensions.width <= 0 || containerDimensions.height <= 0) {
@@ -74,10 +81,13 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     }
 
     // Function to get current point size based on visible state
-    // This will be called on each animation frame to get the current size
+    // This will use the current value from the refs, not triggering re-renders
     const getPointSize = () => {
+      // Check current isVisible state from refs
+      const currentIsVisible = isTouchDeviceRef.current || isHoveredRef.current;
+
       // When expanded (showing ingredient text), we need more space
-      if (isVisible) {
+      if (currentIsVisible) {
         return {
           width: estimatedTextWidth,
           height: 20, // Height of the bubble + text
@@ -111,21 +121,24 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       initialAngle,
     );
 
-    // Clean up on unmount or when dependencies change
+    // Clean up on unmount or when container dimensions change
     return cleanup;
   }, [
     containerDimensions.width,
     containerDimensions.height,
     controls,
-    isVisible,
     estimatedTextWidth,
     initialAngle,
+    // No dependency on isHovered or isTouchDevice
   ]);
+
+  // Only calculate visibility for rendering, not for animation
+  const isVisible = isTouchDevice || isHovered;
 
   return (
     <div
       ref={containerRef}
-      className={`float-container pointer-events-none absolute z-30 ${containerSize}`}
+      className={`float-container pointer-events-none absolute z-30 ${containerSize} border border-dashed border-red-800`}
       style={{
         top: position.top,
         left: position.left,
