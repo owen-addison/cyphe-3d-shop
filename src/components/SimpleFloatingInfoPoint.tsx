@@ -70,7 +70,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   // Measure element sizes
   useEffect(() => {
     const measureElements = () => {
-      if (bubbleRef.current && ingredientRef.current) {
+      if (bubbleRef.current) {
         // Parse the bubble size number from class (e.g., "h-4 w-4" -> 4)
         const bubbleSizeValue =
           typeof bubbleSize === 'string'
@@ -80,15 +80,19 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         // Convert to pixels (approximately)
         const calculatedBubbleSize = bubbleSizeValue * 4; // 1rem ≈ 16px, 0.25rem = 4px
 
-        // Measure ingredient text width
-        const ingredientRect = ingredientRef.current.getBoundingClientRect();
-
-        // Total width is bubble + spacing + text
-        const totalWidth = calculatedBubbleSize + ingredientRect.width + 16;
+        // Use a fixed maximum width for ingredient text
+        const maxIngredientWidth = 120; // pixels
+        const paddingX = 16; // px (2 * 8px)
+        const marginRight = 8; // mr-2 in Tailwind
 
         setElementSizes({
-          totalWidth: totalWidth,
-          height: 24, // Approximated height
+          totalWidth:
+            calculatedBubbleSize +
+            maxIngredientWidth +
+            marginRight +
+            paddingX +
+            16,
+          height: 60,
         });
       }
     };
