@@ -8,14 +8,18 @@ export function calculateOscillatingPosition(
   pointHeight: number,
   xAmpPercent: number,
   yAmpPercent: number,
-  initialPhaseOffset: number = 0,
+  deviceType: string,
 ): { x: number; y: number } {
   // 1. Calculate container center
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
 
+  // Adjust amplitude based on device type
+  const ampReductionFactor =
+    deviceType === 'desktop' ? 1 : deviceType === 'tablet' ? 1 : 0.25;
+
   // 2. Calculate maximum possible amplitudes (accounting for element size)
-  const maxXAmp = (containerWidth - pointWidth) / 2;
+  const maxXAmp = ((containerWidth - pointWidth) / 2) * ampReductionFactor;
   const maxYAmp = (containerHeight - pointHeight) / 2;
 
   // 3. Apply percentage to get actual amplitudes
@@ -23,9 +27,8 @@ export function calculateOscillatingPosition(
   const yAmp = maxYAmp * (yAmpPercent / 100);
 
   // 4. Calculate oscillation with sine/cosine
-  // Using different frequencies + phase offset for more interesting motion
-  const xOffset = xAmp * Math.sin(time * xFrequency + initialPhaseOffset);
-  const yOffset = yAmp * Math.cos(time * yFrequency + initialPhaseOffset * 0.7);
+  const xOffset = xAmp * Math.sin(time * xFrequency) + 40;
+  const yOffset = yAmp * Math.cos(time * yFrequency);
 
   // 5. Calculate final position (center + offset)
   const x = centerX + xOffset - pointWidth / 2;
@@ -44,7 +47,7 @@ export function animateOscillatingMotion(
   yFrequency: number,
   xAmpPercent: number,
   yAmpPercent: number,
-  initialPhaseOffset?: number,
+  deviceType: string,
 ): () => void {
   // Set up animation state
   let animationFrameId: number;
@@ -70,7 +73,7 @@ export function animateOscillatingMotion(
       pointHeight,
       xAmpPercent,
       yAmpPercent,
-      initialPhaseOffset,
+      deviceType,
     );
 
     // Update position

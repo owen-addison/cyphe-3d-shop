@@ -223,6 +223,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
             position={positions[index] || positions[positions.length - 1]}
             initialAngle={initialAngles[index]}
             bubbleSize={getBubbleSize(index)}
+            deviceType={deviceType}
           />
         ))}
 

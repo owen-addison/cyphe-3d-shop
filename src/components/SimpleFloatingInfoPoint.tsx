@@ -9,6 +9,7 @@ interface SimpleFloatingInfoPointProps {
   position: { top: string; left: string };
   initialAngle?: number;
   bubbleSize: string;
+  deviceType: string;
 }
 
 /**
@@ -21,6 +22,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   position,
   initialAngle,
   bubbleSize,
+  deviceType,
 }) => {
   // Refs and state
   const containerRef = useRef<HTMLDivElement>(null);
@@ -110,16 +112,13 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       return;
     }
 
-    // Use the phase offset from initialAngle if provided
-    const phaseOffset = initialAngle || Math.random() * Math.PI * 2;
-
     // Custom frequencies for more varied motion
-    const xFrequency = 0.3 + Math.random() * 0.2; // 0.3-0.5
+    const xFrequency = 0.5 + Math.random() * 0.2; // 0.5-0.7
     const yFrequency = 0.2 + Math.random() * 0.2; // 0.2-0.4
 
     // Use different amplitude percentages for variety
-    const xAmplitude = 60 + Math.random() * 20; // 60-80%
-    const yAmplitude = 60 + Math.random() * 20; // 60-80%
+    const xAmplitude = 100; // 60-80%
+    const yAmplitude = 100; // 60-80%
 
     // Start the oscillating animation
     const cleanup = animateOscillatingMotion(
@@ -138,7 +137,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       yFrequency,
       xAmplitude,
       yAmplitude,
-      phaseOffset,
+      deviceType,
     );
 
     return cleanup;
@@ -149,6 +148,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     elementSizes.height,
     controls,
     initialAngle,
+    deviceType,
   ]);
 
   // Determine visibility state for rendering
@@ -157,7 +157,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`float-container pointer-events-none absolute z-30 ${containerSize}`}
+      className={`float-container pointer-events-none absolute isolate z-30 ${containerSize}`}
       style={{
         top: position.top,
         left: position.left,
