@@ -217,7 +217,7 @@ const Item: React.FC<ItemProps> = ({ data }) => {
         {/* Show floating info points using the original position strategy */}
         {ingredients.map((ingredient, index) => (
           <SimpleFloatingInfoPoint
-            key={index}
+            key={`${id}-${ingredient}`}
             ingredient={ingredient}
             isHovered={isTouchDevice || isHovered}
             position={positions[index] || positions[positions.length - 1]}

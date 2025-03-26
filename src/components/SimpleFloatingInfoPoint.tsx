@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { animateCircularMotion, PointSize } from '../utils/circularMotion';
+import { animateOscillatingMotion } from '../utils/simpleMotion';
 import { useResponsive } from '../hooks/useResponsive';
 
 interface SimpleFloatingInfoPointProps {
@@ -12,8 +12,8 @@ interface SimpleFloatingInfoPointProps {
 }
 
 /**
- * A floating info point component that orbits in a circular pattern
- * and dynamically adapts to size changes when hover state changes
+ * A floating info point component that moves with smooth oscillating motion
+ * and shows/hides the ingredient text based on hover state
  */
 const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   ingredient,
@@ -34,20 +34,9 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
   const bubbleRef = useRef<HTMLDivElement>(null);
   const ingredientRef = useRef<HTMLDivElement>(null);
   const [elementSizes, setElementSizes] = useState({
-    bubbleWidth: 0,
-    expandedWidth: 0,
+    totalWidth: 0,
     height: 0,
   });
-
-  // Use refs to track hover state without triggering effect reruns
-  const isHoveredRef = useRef(isHovered);
-  const isTouchDeviceRef = useRef(isTouchDevice);
-
-  // Update refs when props change
-  useEffect(() => {
-    isHoveredRef.current = isHovered;
-    isTouchDeviceRef.current = isTouchDevice;
-  }, [isHovered, isTouchDevice]);
 
   // Determine container size based on device
   const containerSize = isMobile
@@ -94,13 +83,11 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         // Measure ingredient text width
         const ingredientRect = ingredientRef.current.getBoundingClientRect();
 
-        // Calculate total width when expanded (bubble + spacing + text)
-        const totalExpandedWidth =
-          calculatedBubbleSize + ingredientRect.width + 16;
+        // Total width is bubble + spacing + text
+        const totalWidth = calculatedBubbleSize + ingredientRect.width + 16;
 
         setElementSizes({
-          bubbleWidth: calculatedBubbleSize,
-          expandedWidth: totalExpandedWidth,
+          totalWidth: totalWidth,
           height: 24, // Approximated height
         });
       }
@@ -110,37 +97,30 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     setTimeout(measureElements, 100);
   }, [bubbleSize]);
 
-  // Setup circular animation
+  // Setup oscillating animation
   useEffect(() => {
     // Only start animation if we have valid dimensions
     if (
       containerDimensions.width <= 0 ||
       containerDimensions.height <= 0 ||
-      elementSizes.expandedWidth <= 0
+      elementSizes.totalWidth <= 0
     ) {
       return;
     }
 
-    // Function to provide current dimensions
-    const getPointSize = (): PointSize => {
-      const isVisible = isTouchDeviceRef.current || isHoveredRef.current;
+    // Use the phase offset from initialAngle if provided
+    const phaseOffset = initialAngle || Math.random() * Math.PI * 2;
 
-      // Add extra safety buffer
-      const safeExpandedWidth = elementSizes.expandedWidth + 10;
+    // Custom frequencies for more varied motion
+    const xFrequency = 0.3 + Math.random() * 0.2; // 0.3-0.5
+    const yFrequency = 0.2 + Math.random() * 0.2; // 0.2-0.4
 
-      return {
-        // Current visual width
-        width: isVisible
-          ? elementSizes.expandedWidth
-          : elementSizes.bubbleWidth,
-        height: elementSizes.height,
-        // Always use maxWidth for consistent boundary calculation
-        maxWidth: safeExpandedWidth,
-      };
-    };
+    // Use different amplitude percentages for variety
+    const xAmplitude = 60 + Math.random() * 20; // 60-80%
+    const yAmplitude = 60 + Math.random() * 20; // 60-80%
 
-    // Start the animation
-    const cleanup = animateCircularMotion(
+    // Start the oscillating animation
+    const cleanup = animateOscillatingMotion(
       // Update callback applies calculated position
       (position) => {
         controls.set({
@@ -150,20 +130,21 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       },
       containerDimensions.width,
       containerDimensions.height,
-      getPointSize,
-      0.15, // Slower speed for smoother movement
-      75, // Fixed radius percentage
-      0, // Unused parameter - kept for compatibility
-      0, // Unused parameter - kept for compatibility
-      initialAngle,
+      elementSizes.totalWidth,
+      elementSizes.height,
+      xFrequency,
+      yFrequency,
+      xAmplitude,
+      yAmplitude,
+      phaseOffset,
     );
 
     return cleanup;
   }, [
     containerDimensions.width,
     containerDimensions.height,
-    elementSizes.expandedWidth,
-    elementSizes.bubbleWidth,
+    elementSizes.totalWidth,
+    elementSizes.height,
     controls,
     initialAngle,
   ]);
@@ -178,8 +159,8 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
       style={{
         top: position.top,
         left: position.left,
-        // Subtle border for debugging - can be removed in production
-        border: '1px dashed rgba(0,0,0,0.05)',
+        // Debugging border
+        border: '1px dashed rgba(153, 27, 27, 1)',
       }}
     >
       <motion.div
@@ -197,8 +178,8 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         </div>
         <div
           ref={ingredientRef}
-          className={`ingredient-container overflow-hidden whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-all duration-500 ${
-            isVisible ? 'max-w-[180px] opacity-100' : 'max-w-0 opacity-0'
+          className={`ingredient-container max-w-[120px] overflow-hidden text-ellipsis whitespace-nowrap rounded-sm bg-[#dbddd6] bg-opacity-80 px-2 py-0.5 font-mohave font-light tracking-widest text-moss-800 transition-opacity duration-500 ${
+            isVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
           {ingredient.toLowerCase()}
