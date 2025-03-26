@@ -38,34 +38,32 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
     height: 0,
   });
 
-  // Determine container size based on device
   const containerSize = isMobile
     ? 'h-32 w-36'
     : isTablet
       ? 'h-36 w-44'
       : 'h-40 w-52';
 
-  // Measure container dimensions
+  const getTailwindSizePixels = (sizeClass: string) => {
+    const sizes: { [key: string]: number } = {
+      'w-36': 144,
+      'w-44': 176,
+      'w-52': 208,
+      'h-32': 128,
+      'h-36': 144,
+      'h-40': 160,
+    };
+    return sizes[sizeClass] || 0;
+  };
+
   useEffect(() => {
-    if (containerRef.current) {
-      const updateDimensions = () => {
-        if (containerRef.current) {
-          setContainerDimensions({
-            width: containerRef.current.offsetWidth,
-            height: containerRef.current.offsetHeight,
-          });
-        }
-      };
+    const [heightClass, widthClass] = containerSize.split(' ');
 
-      // Initial measurement
-      updateDimensions();
-
-      // Re-measure on resize
-      window.addEventListener('resize', updateDimensions);
-
-      return () => window.removeEventListener('resize', updateDimensions);
-    }
-  }, []);
+    setContainerDimensions({
+      width: getTailwindSizePixels(widthClass),
+      height: getTailwindSizePixels(heightClass),
+    });
+  }, [containerSize]);
 
   // Measure element sizes
   useEffect(() => {
