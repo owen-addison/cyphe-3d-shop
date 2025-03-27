@@ -162,7 +162,7 @@ const SimpleFloatingInfoPoint: React.FC<SimpleFloatingInfoPointProps> = ({
         top: position.top,
         left: position.left,
         // Debugging border
-        border: '1px dashed rgba(153, 27, 27, 1)',
+        // border: '1px dashed rgba(153, 27, 27, 1)',
       }}
     >
       <motion.div
