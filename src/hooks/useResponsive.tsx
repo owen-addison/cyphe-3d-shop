@@ -55,9 +55,9 @@ export function useResponsive() {
 
       setDeviceType(newDeviceType);
 
-      console.log(
-        `Device info - Type: ${newDeviceType}, Touch: ${hasTouchCapability}, Width: ${width}px`,
-      );
+      // console.log(
+      //   `Device info - Type: ${newDeviceType}, Touch: ${hasTouchCapability}, Width: ${width}px`,
+      // );
     };
 
     // Initial call
