@@ -33,27 +33,11 @@ export function useResponsive() {
 
       setWindowSize({ width, height });
 
-      // Determine device type based on both size and touch capability
-      let newDeviceType: DeviceType;
-
-      if (!hasTouchCapability) {
-        // No touch means desktop regardless of size
-        newDeviceType = 'desktop';
-      } else if (width < breakpoints.md) {
-        // Small touch screens are mobile
-        newDeviceType = 'mobile';
-      } else if (width <= breakpoints.xl) {
-        // Medium-large touch screens are tablets
-        newDeviceType = 'tablet';
-      } else {
-        // Very large touch screens could be touch-enabled desktops
-        newDeviceType = 'desktop';
-      }
-
-      setDeviceType(newDeviceType);
+      // Call our new improved device detection function
+      setDeviceType(determineDeviceType());
 
       console.log(
-        `Device info - Type: ${newDeviceType}, Touch: ${hasTouchCapability}, Width: ${width}px`,
+        `Device info - Type: ${determineDeviceType()}, Touch: ${hasTouchCapability}, Width: ${width}px`,
       );
     };
 
@@ -66,6 +50,38 @@ export function useResponsive() {
     // Clean up
     return () => window.removeEventListener('resize', handleResize);
   }, [hasTouchCapability]);
+
+  // Improved device type detection function
+  const determineDeviceType = (): DeviceType => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const touchPoints = navigator.maxTouchPoints || 0;
+
+    // Check for tablet-specific indicators
+    const isTabletByUserAgent = /iPad|Android(?!.*Mobile)|Tablet/i.test(
+      navigator.userAgent,
+    );
+    const isTabletByRatio =
+      width / height < 1.8 && width / height > 0.7 && width > 760;
+    const isTabletByTouchPoints = touchPoints > 0 && touchPoints < 5; // Many tablets have fewer touch points than phones
+    const isLikelyTablet =
+      isTabletByUserAgent || (isTabletByRatio && isTabletByTouchPoints);
+
+    // More reliable desktop detection
+    const isDesktop =
+      !hasTouchCapability || (width > breakpoints.xl && !isTabletByUserAgent);
+
+    if (isDesktop && !isLikelyTablet) {
+      return 'desktop';
+    } else if (
+      width < breakpoints.md ||
+      (hasTouchCapability && width / height > 1.6)
+    ) {
+      return 'mobile'; // Most phones or small tablets in landscape
+    } else {
+      return 'tablet';
+    }
+  };
 
   // Utility functions to check if we're at a specific breakpoint
   const isMobile = deviceType === 'mobile';
