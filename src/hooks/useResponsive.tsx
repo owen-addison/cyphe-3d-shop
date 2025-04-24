@@ -36,9 +36,9 @@ export function useResponsive() {
       // Call our new improved device detection function
       setDeviceType(determineDeviceType());
 
-      console.log(
-        `Device info - Type: ${determineDeviceType()}, Touch: ${hasTouchCapability}, Width: ${width}px`,
-      );
+      // console.log(
+      //   `Device info - Type: ${determineDeviceType()}, Touch: ${hasTouchCapability}, Width: ${width}px`,
+      // );
     };
 
     // Initial call
