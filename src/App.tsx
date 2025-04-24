@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Info from './components/Info';
 import Item from './components/Item';
 import SnipcartInitialiser from './components/SnipcartInitialiser';
+import { useResponsive } from './hooks/useResponsive';
 import './App.css';
 
 interface ItemData {
@@ -15,11 +16,22 @@ interface ItemData {
 function App() {
   const [items, setItems] = useState<ItemData[]>([]);
   const [showInfo, setShowInfo] = useState(false);
+  const { deviceType } = useResponsive();
   // const [activeItemId, setActiveItemId] = useState<number | null>(null);
 
   // const toggleItemDetail = (id: number) => {
   //   setActiveItemId((prevId) => (prevId === id ? null : id));
   // };
+
+  useEffect(() => {
+    document.body.classList.add(`device-${deviceType}`);
+    document.documentElement.classList.add(`device-${deviceType}`);
+
+    return () => {
+      document.body.classList.remove(`device-${deviceType}`);
+      document.documentElement.classList.remove(`device-${deviceType}`);
+    };
+  }, [deviceType]);
 
   useEffect(() => {
     fetch('/api/items.json')

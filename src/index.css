@@ -13,13 +13,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (min-width: 1025px) {
-  body {
-    min-width: 1024px;
+/* Minimum width only for actual desktop devices */
+body.device-desktop,
+html.device-desktop {
+  min-width: 900px;
+}
+
+body.device-desktop .app-container,
+body.device-desktop #root,
+body.device-desktop > div {
+  min-width: 900px;
+}
+
+/* When viewport is smaller than min-width on desktop */
+@media screen and (max-width: 900px) {
+  body.device-desktop {
+    overflow-x: auto;
   }
 
-  .app-container {
-    min-width: 1024px;
+  html {
     overflow-x: auto;
   }
 }
