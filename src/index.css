@@ -133,3 +133,38 @@ body.device-desktop > div {
 .snipcart-empty-cart__title {
   color: #6d6e6b !important;
 }
+
+/* --- Delete Icon Styling --- */
+
+/* Target the delete butto */
+.snipcart-button-icon.is-danger {
+  background-color: #b33a3a !important; /* Darker red background */
+  border-color: #b33a3a !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.snipcart-button-icon.is-danger:hover {
+  background-color: #cc4b4b !important; /* Slightly lighter red on hover */
+  border-color: #cc4b4b !important;
+}
+
+/* Target the delete SVG icon */
+.snipcart-button-icon.is-danger .snipcart__icon {
+  color: #f9f7f3 !important; /* Light color for the icon */
+  fill: #f9f7f3 !important;
+}
+
+/* Ensure delete icon color remains visible when button is hovered */
+.snipcart-button-icon.is-danger:hover .snipcart__icon {
+  color: white !important;
+  fill: white !important;
+}
+
+/* For the path inside the SVG */
+.snipcart-button-icon.is-danger .snipcart__icon path {
+  fill: #f9f7f3 !important;
+}
+
+.snipcart-button-icon.is-danger:hover .snipcart__icon path {
+  fill: white !important;
+}
