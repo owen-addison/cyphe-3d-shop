@@ -3,10 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   line-height: 1.5;
-  /* font-weight: 400; */
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -55,6 +52,7 @@ body.device-desktop > div {
   transition: all 0.5s;
 }
 
+/* Snipcart z-index */
 .snipcart-modal,
 .snipcart-modal__container,
 .snipcart-cart__content,
@@ -62,109 +60,101 @@ body.device-desktop > div {
   z-index: 100 !important;
 }
 
+/* Snipcart CSS custom properties */
 .snipcart,
 .snipcart-modal,
 .snipcart-cart {
   --color-background: #dbddd6;
   --color-default: #6d6e6b; /* moss-800 */
   --color-alt: #dbddd6; /* moss-300 */
-  --color-icon: #6d6e6b; /* moss-800 */
-  --color-success: #6d6e6b; /* moss-800 */
-  --color-error: #b33a3a; /* Keep red for errors */
-
-  /* Button colors */
-  --color-button-primary: #6d6e6b; /* moss-800 */
-  --color-button-primary-hover: #838480; /* moss-700 */
+  --color-icon: #6d6e6b;
+  --color-success: #6d6e6b;
+  --color-error: #b33a3a;
+  --color-button-primary: #6d6e6b !important;
+  --color-button-primary-hover: #838480 !important;
   --color-button-secondary: #f9f7f3;
   --color-button-secondary-hover: #e6e2d9;
-
-  /* Keep other settings */
   --color-input: #ffffff;
   --color-input-focus: #ffffff;
   --color-input-error: #ffecef;
   --color-input-disabled: #f5f5f5;
-
   --border-radius-modal: 0;
   --border-radius-box: 0;
   --border-radius-input: 0;
   --border-radius-button: 0;
-
   --font-family: 'Mohave', 'Cardo', sans-serif;
 }
 
-/* Add these selectors to target the main background */
+/* Snipcart background colours */
 .snipcart-modal,
 .snipcart-modal__container,
 .snipcart-cart,
 .snipcart-cart__content,
 .snipcart-cart-header__close-button,
-.snipcart-modal__header {
-  background-color: #dbddd6 !important; /* moss-300 from your config */
-}
-
-.snipcart-cart-header {
-  background-color: var(--color-background) !important;
-}
-
+.snipcart-modal__header,
+.snipcart-cart-header,
 .snipcart-cart__footer {
-  background-color: var(--color-background) !important;
+  background-color: #dbddd6 !important;
+}
+
+/* Snipcart item styling */
+.snipcart-item-line {
+  background-color: #e9ebe5 !important;
 }
 
 .snipcart-cart-button--highlight {
   background-color: var(--color-button-primary) !important;
 }
 
-.snipcart-item-line {
-  background-color: #e9ebe5 !important; /* slightly lighter than moss-300 */
-}
-
-.snipcart-item-quantity__quantity {
-  color: var(--color-default);
-}
-
 .snipcart-item-quantity__quantity,
 .snipcart-item-quantity input,
-.snipcart-item-quantity__quantity.snipcart__font--std {
+.snipcart-item-quantity__quantity.snipcart__font--std,
+.snipcart-empty-cart__title {
   opacity: 1 !important;
   visibility: visible !important;
   color: #6d6e6b !important;
 }
 
-.snipcart-empty-cart__title {
-  color: #6d6e6b !important;
+/* Primary button styling - consolidated with maximum specificity */
+.snipcart .snipcart-button-primary,
+.snipcart-modal .snipcart-button-primary,
+.snipcart-cart .snipcart-button-primary,
+#snipcart .snipcart-button-primary,
+button.snipcart-button-primary {
+  background-color: #6d6e6b !important;
+  border-color: #6d6e6b !important;
+  color: white !important;
 }
 
-/* --- Delete Icon Styling --- */
+.snipcart .snipcart-button-primary:hover,
+.snipcart-modal .snipcart-button-primary:hover,
+.snipcart-cart .snipcart-button-primary:hover,
+#snipcart .snipcart-button-primary:hover,
+button.snipcart-button-primary:hover {
+  background-color: #838480 !important;
+  border-color: #838480 !important;
+}
 
-/* Target the delete butto */
+/* Delete button styling */
 .snipcart-button-icon.is-danger {
-  background-color: #b33a3a !important; /* Darker red background */
+  background-color: #b33a3a !important;
   border-color: #b33a3a !important;
   transition: all 0.2s ease-in-out !important;
 }
 
 .snipcart-button-icon.is-danger:hover {
-  background-color: #cc4b4b !important; /* Slightly lighter red on hover */
+  background-color: #cc4b4b !important;
   border-color: #cc4b4b !important;
 }
 
-/* Target the delete SVG icon */
-.snipcart-button-icon.is-danger .snipcart__icon {
-  color: #f9f7f3 !important; /* Light color for the icon */
-  fill: #f9f7f3 !important;
-}
-
-/* Ensure delete icon color remains visible when button is hovered */
-.snipcart-button-icon.is-danger:hover .snipcart__icon {
-  color: white !important;
-  fill: white !important;
-}
-
-/* For the path inside the SVG */
+.snipcart-button-icon.is-danger .snipcart__icon,
 .snipcart-button-icon.is-danger .snipcart__icon path {
+  color: #f9f7f3 !important;
   fill: #f9f7f3 !important;
 }
 
+.snipcart-button-icon.is-danger:hover .snipcart__icon,
 .snipcart-button-icon.is-danger:hover .snipcart__icon path {
+  color: white !important;
   fill: white !important;
 }
