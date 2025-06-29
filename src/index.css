@@ -64,16 +64,16 @@ body.device-desktop > div {
 .snipcart,
 .snipcart-modal,
 .snipcart-cart {
-  --color-background: #dbddd6;
-  --color-default: #6d6e6b; /* moss-800 */
-  --color-alt: #dbddd6; /* moss-300 */
-  --color-icon: #6d6e6b;
-  --color-success: #6d6e6b;
+  --color-background: #e9eae5;
+  --color-default: #55594a; /* moss-800 */
+  --color-alt: #e9eae5; /* moss-300 */
+  --color-icon: #55594a;
+  --color-success: #55594a;
   --color-error: #b33a3a;
-  --color-button-primary: #6d6e6b !important;
-  --color-button-primary-hover: #838480 !important;
-  --color-button-secondary: #f9f7f3;
-  --color-button-secondary-hover: #e6e2d9;
+  --color-button-primary: #55594a !important;
+  --color-button-primary-hover: #717763 !important;
+  --color-button-secondary: #f6f7f5;
+  --color-button-secondary-hover: #f2f2f0;
   --color-input: #ffffff;
   --color-input-focus: #ffffff;
   --color-input-error: #ffecef;
@@ -94,12 +94,12 @@ body.device-desktop > div {
 .snipcart-modal__header,
 .snipcart-cart-header,
 .snipcart-cart__footer {
-  background-color: #dbddd6 !important;
+  background-color: #e9eae5 !important;
 }
 
 /* Snipcart item styling */
 .snipcart-item-line {
-  background-color: #e9ebe5 !important;
+  background-color: #f2f2f0 !important;
 }
 
 .snipcart-cart-button--highlight {
@@ -112,7 +112,7 @@ body.device-desktop > div {
 .snipcart-empty-cart__title {
   opacity: 1 !important;
   visibility: visible !important;
-  color: #6d6e6b !important;
+  color: #55594a !important;
 }
 
 /* Primary button styling - consolidated with maximum specificity */
@@ -121,8 +121,8 @@ body.device-desktop > div {
 .snipcart-cart .snipcart-button-primary,
 #snipcart .snipcart-button-primary,
 button.snipcart-button-primary {
-  background-color: #6d6e6b !important;
-  border-color: #6d6e6b !important;
+  background-color: #55594a !important;
+  border-color: #55594a !important;
   color: white !important;
 }
 
@@ -131,8 +131,8 @@ button.snipcart-button-primary {
 .snipcart-cart .snipcart-button-primary:hover,
 #snipcart .snipcart-button-primary:hover,
 button.snipcart-button-primary:hover {
-  background-color: #838480 !important;
-  border-color: #838480 !important;
+  background-color: #717763 !important;
+  border-color: #717763 !important;
 }
 
 /* Delete button styling */
@@ -149,8 +149,8 @@ button.snipcart-button-primary:hover {
 
 .snipcart-button-icon.is-danger .snipcart__icon,
 .snipcart-button-icon.is-danger .snipcart__icon path {
-  color: #f9f7f3 !important;
-  fill: #f9f7f3 !important;
+  color: #f6f7f5 !important;
+  fill: #f6f7f5 !important;
 }
 
 .snipcart-button-icon.is-danger:hover .snipcart__icon,
