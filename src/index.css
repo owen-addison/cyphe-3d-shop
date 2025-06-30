@@ -140,6 +140,17 @@ button.snipcart-button-primary:hover {
   border-color: var(--color-button-primary-hover) !important; /* sunset1-400 */
 }
 
+/* Snipcart secondary button styling */
+.snipcart-button-secondary {
+  background-color: var(--color-button-primary) !important; /* sunset1-500 */
+  border-color: var(--color-button-primary) !important; /* sunset1-500 */
+  color: white !important;
+}
+
+.snipcart-base-button__icon > .snipcart__icon {
+  color: white !important;
+}
+
 /* Delete button styling */
 .snipcart-button-icon.is-danger {
   background-color: var(--color-button-delete) !important;
