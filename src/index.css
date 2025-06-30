@@ -80,7 +80,10 @@ body.device-desktop > div {
   --color-input-focus: #ffffff;
   --color-input-error: #ffecef;
   --color-input-disabled: #f5f5f5;
+  --color-font-secondary: #393b31; /* moss-900 */
   --color-border-default: #dbddd6; /* moss-400 */
+  --color-badge-highlight: #8d937d !important; /* moss-600 */
+  --color-badge-disabled: #fdfdfd !important; /* moss-50 */
   --border-radius-modal: 0;
   --border-radius-box: 0;
   --border-radius-input: 0;
@@ -195,5 +198,30 @@ button.snipcart-button-primary:hover {
 }
 
 .snipcart__icon {
+  color: var(--color-default) !important;
+}
+
+/* Snipcart secondary font styling */
+.snipcart__font--secondary {
+  color: var(--color-font-secondary) !important;
+}
+
+/* Snipcart summary styling */
+.snipcart-cart-summary {
+  background-color: var(--color-background) !important;
+}
+
+/* Snipcart badge styling */
+.snipcart__box--badge-highlight {
+  background-color: var(--color-badge-highlight) !important;
+  border: none;
+  color: var(--color-alt) !important;
+}
+
+.snipcart__box--badge-disabled {
+  background-color: var(--color-badge-disabled) !important;
+  /* border-color: var(--color-badge-highlight) !important; */
+  /* border-width: 1px !important; */
+  border: none !important;
   color: var(--color-default) !important;
 }
