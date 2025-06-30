@@ -70,10 +70,12 @@ body.device-desktop > div {
   --color-icon: #55594a;
   --color-success: #55594a;
   --color-error: #b33a3a;
-  --color-button-primary: #fd7400 !important;
-  --color-button-primary-hover: #ff851e !important;
+  --color-button-primary: #fd7400 !important; /* sunset2-500 */
+  --color-button-primary-hover: #ff851e !important; /* sunset2-400 */
   --color-button-secondary: #f6f7f5;
   --color-button-secondary-hover: #f2f2f0;
+  --color-button-delete: #cd0402 !important; /* red-600 */
+  --color-button-delete-hover: #fd4543 !important; /* red-400 */
   --color-input: #ffffff;
   --color-input-focus: #ffffff;
   --color-input-error: #ffecef;
@@ -139,14 +141,14 @@ button.snipcart-button-primary:hover {
 
 /* Delete button styling */
 .snipcart-button-icon.is-danger {
-  background-color: #b33a3a !important;
-  border-color: #b33a3a !important;
+  background-color: var(--color-button-delete) !important;
+  border-color: var(--color-button-delete) !important;
   transition: all 0.2s ease-in-out !important;
 }
 
 .snipcart-button-icon.is-danger:hover {
-  background-color: #cc4b4b !important;
-  border-color: #cc4b4b !important;
+  background-color: var(--color-button-delete-hover) !important;
+  border-color: var(--color-button-delete-hover) !important;
 }
 
 .snipcart-button-icon.is-danger .snipcart__icon,
