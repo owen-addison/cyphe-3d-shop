@@ -64,7 +64,7 @@ body.device-desktop > div {
 .snipcart,
 .snipcart-modal,
 .snipcart-cart {
-  --color-background: #e9eae5;
+  --color-background: #e9eae5; /* moss-300 */
   --color-default: #55594a; /* moss-800 */
   --color-alt: #e9eae5; /* moss-300 */
   --color-icon: #55594a;
@@ -80,6 +80,7 @@ body.device-desktop > div {
   --color-input-focus: #ffffff;
   --color-input-error: #ffecef;
   --color-input-disabled: #f5f5f5;
+  --color-border-default: #dbddd6; /* moss-400 */
   --border-radius-modal: 0;
   --border-radius-box: 0;
   --border-radius-input: 0;
@@ -161,4 +162,13 @@ button.snipcart-button-primary:hover {
 .snipcart-button-icon.is-danger:hover .snipcart__icon path {
   color: white !important;
   fill: white !important;
+}
+
+/* Snipcart payment methods styling */
+.snipcart-featured-payment-methods {
+  border-color: var(--color-border-default) !important;
+}
+
+.snipcart-featured-payment-methods__title {
+  background-color: var(--color-background) !important;
 }
