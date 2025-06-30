@@ -66,8 +66,8 @@ body.device-desktop > div {
 .snipcart-cart {
   --color-background: #e9eae5; /* moss-300 */
   --color-default: #55594a; /* moss-800 */
-  --color-alt: #e9eae5; /* moss-300 */
-  --color-icon: #55594a;
+  --color-alt: #fdfdfd; /* moss-50 */
+  --color-icon: #dbddd6; /* moss-400 */
   --color-success: #55594a;
   --color-error: #b33a3a;
   --color-button-primary: #fd7400 !important; /* sunset2-500 */
@@ -171,4 +171,18 @@ button.snipcart-button-primary:hover {
 
 .snipcart-featured-payment-methods__title {
   background-color: var(--color-background) !important;
+}
+
+/* Snipcart item quantity styling */
+.snipcart-item-quantity__quantity {
+  background-color: var(--color-alt) !important;
+  border-color: var(--color-border-default) !important;
+}
+
+.snipcart-button-icon {
+  background-color: var(--color-alt) !important;
+}
+
+.snipcart__icon {
+  color: var(--color-default) !important;
 }
