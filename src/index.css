@@ -70,8 +70,8 @@ body.device-desktop > div {
   --color-icon: #55594a;
   --color-success: #55594a;
   --color-error: #b33a3a;
-  --color-button-primary: #55594a !important;
-  --color-button-primary-hover: #717763 !important;
+  --color-button-primary: #fd7400 !important;
+  --color-button-primary-hover: #ff851e !important;
   --color-button-secondary: #f6f7f5;
   --color-button-secondary-hover: #f2f2f0;
   --color-input: #ffffff;
@@ -121,8 +121,8 @@ body.device-desktop > div {
 .snipcart-cart .snipcart-button-primary,
 #snipcart .snipcart-button-primary,
 button.snipcart-button-primary {
-  background-color: #55594a !important;
-  border-color: #55594a !important;
+  background-color: var(--color-button-primary) !important; /* sunset1-500 */
+  border-color: var(--color-button-primary) !important; /* sunset1-500 */
   color: white !important;
 }
 
@@ -131,8 +131,10 @@ button.snipcart-button-primary {
 .snipcart-cart .snipcart-button-primary:hover,
 #snipcart .snipcart-button-primary:hover,
 button.snipcart-button-primary:hover {
-  background-color: #717763 !important;
-  border-color: #717763 !important;
+  background-color: var(
+    --color-button-primary-hover
+  ) !important; /* sunset1-400 */
+  border-color: var(--color-button-primary-hover) !important; /* sunset1-400 */
 }
 
 /* Delete button styling */
