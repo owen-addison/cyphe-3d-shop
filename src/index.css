@@ -212,9 +212,14 @@ button.snipcart-button-primary:hover {
 }
 
 /* Snipcart badge styling */
+.snipcart__box--badge {
+  background-color: var(--color-badge-disabled) !important;
+  border: none !important;
+}
+
 .snipcart__box--badge-highlight {
   background-color: var(--color-badge-highlight) !important;
-  border: none;
+  border: none !important;
   color: var(--color-alt) !important;
 }
 
