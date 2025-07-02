@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ShaderBackground from './components/ShaderBackground';
 import Header from './components/Header';
 import Info from './components/Info';
 import Item from './components/Item';
@@ -41,21 +42,24 @@ function App() {
   }, []);
 
   return (
-    <div className="app-container">
-      <SnipcartInitialiser />
-      <Header onShowInfo={() => setShowInfo(true)} />
-      <div className="item-container">
-        {items.map((item) => (
-          <Item
-            key={item.id}
-            data={item}
-            // isDetailedView={activeItemId === item.id}
-            // toggleView={() => toggleItemDetail(item.id)}
-          />
-        ))}
+    <>
+      <ShaderBackground />
+      <div className="app-container relative z-10">
+        <SnipcartInitialiser />
+        <Header onShowInfo={() => setShowInfo(true)} />
+        <div className="item-container">
+          {items.map((item) => (
+            <Item
+              key={item.id}
+              data={item}
+              // isDetailedView={activeItemId === item.id}
+              // toggleView={() => toggleItemDetail(item.id)}
+            />
+          ))}
+        </div>
+        {showInfo && <Info onClose={() => setShowInfo(false)} />}
       </div>
-      {showInfo && <Info onClose={() => setShowInfo(false)} />}
-    </div>
+    </>
   );
 }
 
