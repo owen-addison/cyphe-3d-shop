@@ -4,7 +4,7 @@ interface HeaderProps {
   onShowInfo: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
+const Header: React.FC<HeaderProps> = () => {
   return (
     <div className="header min-w-screen z-40 flex h-16 items-center justify-between border-b border-moss-800 px-4">
       <div className="flex w-1/4 items-center">
@@ -23,13 +23,13 @@ const Header: React.FC<HeaderProps> = ({ onShowInfo }) => {
       </div>
       <div className="flex w-1/4 justify-end">
         <div className="flex items-center justify-center">
-          <p
+          {/* <p
             className="group cursor-pointer text-center font-maven text-sm font-light tracking-wider-2 text-moss-950 transition duration-300 sm:text-base"
             onClick={onShowInfo}
           >
             info
             <span className="block h-0.5 max-w-0 bg-moss-950 bg-opacity-70 transition-all duration-500 group-hover:max-w-full"></span>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
