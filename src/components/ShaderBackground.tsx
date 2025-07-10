@@ -67,8 +67,8 @@ const ShaderBackground: React.FC = () => {
         // find the distance between the mouse and points
         vec2 mouse = u_mouse / u_resolution;
         float dist = distance(uv, mouse);
-        float strength = smoothstep(0.35, 0.0, dist);
-        float strength2 = smoothstep(1.4, 0.5, dist * 6.2);
+        float strength = smoothstep(0.2, 0.0, dist * 1.7);
+        float strength2 = smoothstep(0.4, 0.1, dist * 3.8);
         
         vec4 color1 = vec4(0.965, 0.969, 0.961, 1.0);
         vec4 color2 = vec4(0.914, 0.918, 0.898, 1.0);
