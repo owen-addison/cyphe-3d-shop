@@ -63,7 +63,9 @@ const ShaderBackground: React.FC = () => {
 
     void main(void) {
         vec2 uv = v_texcoord;
-        vec2 mouse = u_mouse;
+
+        // find the distance between the mouse and points
+        vec2 mouse = u_mouse / u_resolution;
         float dist = distance(uv, mouse);
         float strength = smoothstep(0.35, 0.0, dist);
         float strength2 = smoothstep(1.4, 0.5, dist * 6.2);
@@ -142,16 +144,17 @@ const ShaderBackground: React.FC = () => {
     const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
     const mouseLocation = gl.getUniformLocation(program, 'u_mouse');
 
-    let mouseX = 0.5;
-    let mouseY = 0.5;
+    let mouseX = 0.5 * window.innerWidth;
+    let mouseY = 0.5 * window.innerHeight;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left) / rect.width;
-      mouseY = 1.0 - (e.clientY - rect.top) / rect.height;
+      mouseX = e.clientX - rect.left;
+      mouseY = rect.height - (e.clientY - rect.top); // Invert Y coordinate
     };
 
-    canvas.addEventListener('mousemove', handleMouseMove);
+    // Add mouse listener to document instead of canvas
+    document.addEventListener('mousemove', handleMouseMove);
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -175,7 +178,7 @@ const ShaderBackground: React.FC = () => {
     animationRef.current = requestAnimationFrame(render);
 
     return () => {
-      canvas.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', resize);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
