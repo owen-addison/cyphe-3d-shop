@@ -5,25 +5,22 @@ Files: public/model/soapBar1.gltf [2.6KB] > /Users/owen/repos/cyphe-3d-shop/soap
 */
 
 import * as THREE from 'three';
-import React from 'react';
 import { useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
-  nodes: {
-    Soap_Bar: THREE.Mesh;
-  };
-  materials: {
-    Material: THREE.MeshStandardMaterial;
-  };
-  animations: GLTFAction[];
+  nodes: Record<string, THREE.Mesh>;
+  materials: Record<string, THREE.MeshStandardMaterial>;
 };
 
-export function Model(props: JSX.IntrinsicElements['group']) {
+export function Model(
+  props: JSX.IntrinsicElements['group'] & { dispose?: (() => void) | null },
+) {
   const { nodes, materials } = useGLTF(
     '/model/soapBar1-transformed.glb',
   ) as GLTFResult;
   return (
+    /* eslint-disable react/no-unknown-property */
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Soap_Bar.geometry} material={materials.Material} />
     </group>

@@ -4,23 +4,20 @@ Command: npx gltfjsx@6.5.3 public/model/SoapBar2.glb --types --tsx
 */
 
 import * as THREE from 'three';
-import React from 'react';
 import { useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
-  nodes: {
-    Klime_Soapbar: THREE.Mesh;
-  };
-  materials: {
-    Material: THREE.MeshStandardMaterial;
-  };
-  animations: GLTFAction[];
+  nodes: Record<string, THREE.Mesh>;
+  materials: Record<string, THREE.MeshStandardMaterial>;
 };
 
-export function Model(props: JSX.IntrinsicElements['group']) {
+export function Model(
+  props: JSX.IntrinsicElements['group'] & { dispose?: (() => void) | null },
+) {
   const { nodes, materials } = useGLTF('/model/SoapBar2.glb') as GLTFResult;
   return (
+    /* eslint-disable react/no-unknown-property */
     <group {...props} dispose={null}>
       <mesh
         geometry={nodes.Klime_Soapbar.geometry}
